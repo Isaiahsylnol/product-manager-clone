@@ -1,0 +1,81 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Inquiry</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar color="primary">
+      <ion-title size="large">Inquiry</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-grid>
+    <ion-row>
+      <div class="border-2 border-[#6d6d6d] w-full">
+        <ion-input placeholder="Search By Product Number, UPC or Description"></ion-input>
+      </div>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div class="text-black">
+          <ion-grid>
+            <ion-row class="w-full grid grid-cols-2">
+              <ion-col>
+                <div class="float-left">Product #51-1018</div>
+              </ion-col>
+              <ion-col>
+                <div class="float-right">A/A/| OH 2</div>
+              </ion-col>
+            </ion-row>
+            <ion-row class="gap-6 w-full grid grid-cols-2">
+              <ion-col>
+                <ion-img src="../../assets/no-image-2.jpg" alt="Default placeholder image"></ion-img>
+              </ion-col>
+              <ion-col color="light">
+                Mastercraft 8' Aluminum Stepladder, Grade 2, 225lb cap
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <div>
+                  <div class="bg-slate-200 text-black w-full text-xs flex justify-between">
+                    <span>Warranty: 90 Days</span>
+                    <span>Exchange: 1 Year</span>
+                    <span>Repair: 0 Days</span>
+                  </div>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row class="w-full text-black">
+      <ion-col>
+        <div class="w-full grid grid-cols-2">
+          <ion-col>
+            <div class="float-left text-xl">Reg. $159.99</div>
+          </ion-col>
+          <ion-col>
+            <div class="float-right text-xl">Sale $129.99</div>
+          </ion-col>
+        </div>
+        <div class="float-right text-xs">(D305 - 02/09/23)</div>
+      </ion-col>
+    </ion-row>
+    <ion-row class="w-full bg-slate-200 p-3">
+      <ion-col class="flex flex-col justify-center items-center">
+        <div>INVENTORY</div>
+        <div class="text-3xl">2</div>
+        <div>Last Recieved</div>
+        <div>01/20/23 - 2 units</div>
+      </ion-col>
+      <ion-col class="flex flex-col justify-center items-center">
+        <div>Locations</div>
+        <div class="font-semibold">9HDW10 [BC 1]</div>
+        <div>WLPL03 [BC 0]</div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

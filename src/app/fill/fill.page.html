@@ -1,0 +1,20 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title class="text-white">Fill It</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Fill It</ion-title>
+    </ion-toolbar>
+  </ion-header>
+ 
+  <div *ngFor="let option of options; let i = index" lines="none" >
+   <a href={{option.url}} class="p-4 m-8 bg-blue-600 text-white items flex items-center">
+    <ion-icon aria-hidden="true" slot="start" ios="bookmark-outline" md="document-text" class="pr-4"></ion-icon>
+    <ion-label>{{options[i].title}}</ion-label>
+   </a>
+  </div>
+</ion-content>

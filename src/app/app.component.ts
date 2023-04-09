@@ -11,13 +11,13 @@ import { IonicModule } from '@ionic/angular';
 })
 export class AppComponent {
   public appPages = [
-    { title: 'Inbox', url: '/folder/inbox', icon: 'mail' },
-    { title: 'Outbox', url: '/folder/outbox', icon: 'paper-plane' },
-    { title: 'Favorites', url: '/folder/favorites', icon: 'heart' },
-    { title: 'Archived', url: '/folder/archived', icon: 'archive' },
-    { title: 'Trash', url: '/folder/trash', icon: 'trash' },
-    { title: 'Spam', url: '/folder/spam', icon: 'warning' },
+    { title: 'Home', url: 'home', icon: 'home', md:'home-sharp', iosIcon: 'home'  },
+    { title: 'Inquiry', url: 'inquiry', icon: 'search', md:'search-sharp', iosIcon: 'search' },
+    { title: 'Locate It', url: 'locate', icon: 'location', md:'location-sharp', iosIcon: 'location' },
+    { title: 'Sign It', url: 'sign-it', icon: 'pricetag', md:'pricetag-sharp', iosIcon: 'pricetag' },
+    { title: 'Fill It', url: 'fill', icon: 'file-tray-full', md:'file-tray-full-sharp', iosIcon: 'file-tray-full' },
+    { title: 'Log Out', url: '/folder/trash', icon: 'lock-closed', md:'lock-closed-sharp', iosIcon: 'lock-closed' },
   ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+ 
   constructor() {}
 }
