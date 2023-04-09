@@ -6,7 +6,9 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 import { environment } from './environments/environment';
-
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { provideStorage,getStorage } from '@angular/fire/storage';
 if (environment.production) {
   enableProdMode();
 }
@@ -14,7 +16,12 @@ if (environment.production) {
 bootstrapApplication(AppComponent, {
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    importProvidersFrom(IonicModule.forRoot({})),
+    importProvidersFrom(
+      IonicModule.forRoot({}),
+      provideFirebaseApp(() => initializeApp(environment.firebase)), 
+      provideFirestore(() => getFirestore()), 
+      provideStorage(() => getStorage())
+    ),
     provideRouter(routes),
   ],
 });

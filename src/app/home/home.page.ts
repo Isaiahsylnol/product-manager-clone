@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +13,11 @@ import { IonicModule } from '@ionic/angular';
 })
 export class HomePage implements OnInit {
 
-  constructor() { }
+  constructor(private dataService: DataService) {
+    this.dataService.getProducts().subscribe(res => {
+      console.log(res);
+    })
+  }
 
   ngOnInit() {
   }

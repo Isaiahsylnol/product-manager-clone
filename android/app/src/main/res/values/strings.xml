@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">product-manager-clone</string>
+    <string name="title_activity_main">product-manager-clone</string>
+    <string name="package_name">app.ionic.productmanager</string>
+    <string name="custom_url_scheme">app.ionic.productmanager</string>
+</resources>

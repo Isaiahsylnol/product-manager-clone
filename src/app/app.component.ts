@@ -10,6 +10,7 @@ import { IonicModule } from '@ionic/angular';
   imports: [IonicModule, RouterLink, RouterLinkActive, CommonModule],
 })
 export class AppComponent {
+  
   public appPages = [
     { title: 'Home', url: 'home', icon: 'home', md:'home-sharp', iosIcon: 'home'  },
     { title: 'Inquiry', url: 'inquiry', icon: 'search', md:'search-sharp', iosIcon: 'search' },

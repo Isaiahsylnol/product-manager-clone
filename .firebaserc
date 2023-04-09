@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "product-manager-680c1": {
+      "hosting": {
+        "app": [
+          "product-manager-680c1"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "product-manager-680c1"
+  }
+}
