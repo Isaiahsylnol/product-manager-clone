@@ -14,9 +14,12 @@ import { DataService } from '../services/data.service';
 export class HomePage implements OnInit {
 
   constructor(private dataService: DataService) {
-    this.dataService.getProducts().subscribe(res => {
-      console.log(res);
-    })
+    // this.dataService.getProducts().subscribe(res => {
+    //   console.log(res);
+    // })
+    // this.dataService.getProductBySku("1122").subscribe(res => {
+    //   console.log(res);
+    // })
   }
 
   ngOnInit() {
