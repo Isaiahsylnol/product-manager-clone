@@ -1,12 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { DataService } from '../services/data.service';
 
-interface Prod {
-
-}
 @Component({
   selector: 'app-inquiry',
   templateUrl: './inquiry.page.html',
@@ -17,28 +14,42 @@ interface Prod {
 
 export class InquiryPage implements OnInit {
   
+  @ViewChild('inquiryInput', { static: false }) inquiryInput: any;
   showElement = false;
   hideEle = true
   id: number = 0;
   name: string = '';
   price: number = 0;
   thumbnail: string = '../../assets/no-image-2.jpg';
-  inputValue: number = 0;
+  inputValue: string = "";
+  subscription: any;
 
   constructor(private dataService: DataService) { }
 
-  myFunction(event: any){
-    this.inputValue = Number(event.detail.value);
-    this.dataService.getProductBySku(this.inputValue).subscribe(res => {
-      console.log(res);
-      this.price = res[0]['price'];
-      this.thumbnail = res[0]['thumbnail'];
-      this.name = res[0]['name'];
+  getProductBySku(event: any){
+    this.inputValue = event.detail.value;
+    this.dataService.getProductBySku(event.detail.value).subscribe(res => {
+     if(res){
+      console.log(res);  
+     this.id = Number(res.sku);
+   this.name = res.name;
+   this.price = res.price 
+   this.showElement = true;
+      this.hideEle = false
+      this.inquiryInput.value = '';
+     } else{
+      this.name ="Failed to find sku"
       this.showElement = true;
       this.hideEle = false
+      this.inquiryInput.value = '';
+     }
     })
   }
   ngOnInit() {
+  }
+
+  ngOnDestroy(){
+    this.subscription.unsubscribe();
   }
 
 }

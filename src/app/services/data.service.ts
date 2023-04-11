@@ -1,7 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collectionData, query, where } from '@angular/fire/firestore';
+import { Firestore, collectionData, doc, docData } from '@angular/fire/firestore';
 import { collection } from '@firebase/firestore';
+import { Observable } from 'rxjs';
 
+export interface Product {
+    sku?: string;
+    name: string;
+    price: number; 
+}
 
 @Injectable({
     providedIn: 'root'
@@ -15,8 +21,8 @@ export class DataService {
         return collectionData(productsRef);
     }
 
-    getProductBySku(sku: number) {
-        const productsRef = query(collection(this.firestore, 'products'), where("sku", "==", sku))
-        return collectionData(productsRef)
+    getProductBySku(sku: string): Observable<Product>  {
+        const productsRef = doc(this.firestore, `products/${sku}`);
+        return docData(productsRef, {idField: 'sku'}) as Observable<Product>
     }
 }

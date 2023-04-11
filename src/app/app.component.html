@@ -2,7 +2,7 @@
   <ion-split-pane contentId="main-content">
     <ion-menu contentId="main-content" type="overlay">
       <ion-content>
-        <ion-list>
+        <ion-list class="bg-[#292929]">
           <ion-list-header><ion-label class="text-lg flex justify-center mb-8">John Doe</ion-label></ion-list-header>
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
             <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
@@ -11,14 +11,10 @@
             </ion-item>
           </ion-menu-toggle>
         </ion-list>
-        <ion-list id="labels-list">
-          <ion-item>
             <ion-segment value="Default">
               <ion-segment-button class="text-white" value="Default">EN</ion-segment-button>
               <ion-segment-button class="text-white" value="segment">FR</ion-segment-button>
             </ion-segment>
-          </ion-item>
-        </ion-list>
       </ion-content>
     </ion-menu>
     <ion-router-outlet id="main-content"></ion-router-outlet>
