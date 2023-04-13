@@ -1,0 +1,152 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button routerLink="/inquiry"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Inventory</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button routerLink="/inquiry"></ion-back-button>
+      </ion-buttons>
+      <ion-title>Inventory</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-grid>
+    <ion-row>
+      <div class="border-2 border-[#6d6d6d] w-full inline-flex items-center">
+        <ion-input #inquiryInput placeholder="Search By Product Number, UPC or Description" (ionChange)="getProductBySku($event)" aria-label="Product Search"></ion-input>
+        <ion-icon
+        class="pr-4 text-black"
+        aria-hidden="true"
+        ios="search"
+        md="search-sharp"
+      ></ion-icon>
+      </div>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div class="text-black">
+          <ion-row>
+            <ion-col>
+                <ion-img src='../../assets/no-image-2.jpg' alt="Default placeholder image"></ion-img>
+            </ion-col>
+            <ion-col>
+              <ion-row class="font-semibold">#142-3256</ion-row>
+          <ion-row><p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p> </ion-row> 
+           </ion-col>
+            <ion-col class="text-right flex flex-col items-end gap-14">
+              <ion-row>
+                <div>$29.99</div>
+              </ion-row>
+              <ion-row>
+                <div>OH 33</div>
+              </ion-row>
+            </ion-col>
+          </ion-row>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row class="bg-white">
+        <p class="bg-slate-500 text-white w-full p-1 font-semibold">On Order</p>
+      <ion-row>
+        <ion-row class="p-3">F/C: WH8 ST</ion-row>
+        <ion-row class="mt-12 w-10/12 mx-auto">
+          <table class="w-full text-center">
+            <thead class="bg-gray-300 text-black">
+              <tr>
+                <th>Reg</th>
+                <th>Promo</th>
+                <th>Placing</th>
+                <th>S/O</th>
+                <th>On Truck</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+              </tr>
+            </tbody>
+          </table>
+        </ion-row>
+        <ion-row class="w-full mt-2">
+          <ion-col class="w-full">
+            <p>On Order Due Date</p>
+            <p>Earliest Available</p>
+            <p>Last Order</p>
+            <p>Last Received</p>
+          </ion-col>
+          <ion-col class="w-full">
+            <p>N/A</p>
+            <p>N/A</p>
+            <p>01/15/22</p>
+            <p>05/09/22 - 36 units</p>
+          </ion-col>
+        </ion-row>
+        <ion-row class="w-full mt-3">
+          <ion-row class="w-full">
+            <p class="bg-slate-500 text-white w-full p-1 mb-3 font-semibold">Locations</p>
+          </ion-row>
+          <ion-col>
+            <table class="w-full text-center">
+              <thead class="bg-gray-300 text-black">
+                <tr>
+                  <th>Locations</th>
+                  <th>Bin Cap</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>093R12</td>
+                  <td>10</td>
+                </tr>
+              </tbody>
+            </table>
+          </ion-col>
+          <ion-col>
+            <table class="w-full text-center">
+              <thead class="bg-gray-300 text-black">
+                <tr>
+                  <th>Locations</th>
+                  <th>Bin Cap</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>W1102B</td>
+                  <td>0</td>
+                </tr>
+              </tbody>
+            </table>
+          </ion-col>
+        </ion-row>
+      </ion-row>
+     
+        <ion-row class="w-full mt-3">
+          <p class="bg-slate-500 text-white w-full p-1 mb-3 font-semibold">Last known locations</p>
+        </ion-row>
+        <table class="w-7/12 text-center">
+          <thead class="bg-gray-300 text-black">
+            <tr>
+              <th>Locations</th>
+              <th>Deleted</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>W1101C</td>
+              <td>06/10/22</td>
+            </tr>
+          </tbody>
+        </table>
+    </ion-row>
+  </ion-grid>
+</ion-content>

@@ -1,55 +1,71 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ToastController } from '@ionic/angular';
 import { DataService } from '../services/data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-inquiry',
   templateUrl: './inquiry.page.html',
   styleUrls: ['./inquiry.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule, FormsModule],
 })
-
 export class InquiryPage implements OnInit {
-  
   @ViewChild('inquiryInput', { static: false }) inquiryInput: any;
   showElement = false;
-  hideEle = true
+  hideEle = true;
   id: number = 0;
   name: string = '';
   price: number = 0;
   thumbnail: string = '../../assets/no-image-2.jpg';
-  inputValue: string = "";
+  inputValue: string = '';
   subscription: any;
 
-  constructor(private dataService: DataService) { }
+  constructor(
+    private dataService: DataService,
+    private toast: ToastController,
+    private router: Router
+  ) {}
 
-  getProductBySku(event: any){
+  async presentToast() {
+    const toaster = await this.toast.create({
+      message: 'Invalid Sku Entered',
+      position: 'middle',
+      color: 'warning',
+      duration: 2000,
+    });
+    toaster.present();
+  }
+
+  viewProductDetails() {
+    const data = { name: this.name, price: this.price}
+    //alert("route to details");
+    this.router.navigate(['/product-details'], {state: data});
+  }
+
+  getProductBySku(event: any) {
     this.inputValue = event.detail.value;
-    this.dataService.getProductBySku(event.detail.value).subscribe(res => {
-     if(res){
-      console.log(res);  
-     this.id = Number(res.sku);
-   this.name = res.name;
-   this.price = res.price 
-   this.showElement = true;
-      this.hideEle = false
-      this.inquiryInput.value = '';
-     } else{
-      this.name ="Failed to find sku"
-      this.showElement = true;
-      this.hideEle = false
-      this.inquiryInput.value = '';
-     }
-    })
+    this.dataService.getProductBySku(event.detail.value).subscribe((res) => {
+      console.log(res)
+      if (res) {
+        this.id = Number(res.sku);
+        this.name = res.name;
+        this.price = res.price;
+        this.thumbnail = res.thumbnail
+        this.showElement = true;
+        this.hideEle = false;
+        this.inquiryInput.value = '';
+      } else {
+        this.inquiryInput.value = '';
+        this.presentToast();
+      }
+    });
   }
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.subscription.unsubscribe();
   }
-
 }
