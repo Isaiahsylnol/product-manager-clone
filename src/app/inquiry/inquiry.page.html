@@ -78,15 +78,18 @@
       </ion-row>
       <ion-row class="w-full bg-slate-200 p-3">
         <ion-col class="flex flex-col justify-center items-center">
-          <div>INVENTORY</div>
-          <div class="text-3xl">2</div>
+          <h6 class="uppercase">INVENTORY</h6>
+          <div class="text-3xl font-semibold">2</div>
           <div>Last Recieved</div>
           <div>01/20/23 - 2 units</div>
         </ion-col>
-        <ion-col class="flex flex-col justify-center items-center">
-          <div>Locations</div>
-          <div class="font-semibold">9HDW10 [BC 1]</div>
-          <div>WLPL03 [BC 0]</div>
+        <ion-col class="flex flex-col items-center">
+          <h6 class="uppercase">Locations</h6>
+         <ul>
+          <li *ngFor="let loc of location">
+            {{ loc }}
+          </li>
+         </ul>
         </ion-col>
       </ion-row>
     </ion-row>

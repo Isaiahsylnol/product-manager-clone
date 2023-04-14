@@ -1,0 +1,27 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title slot="start">Location <ion-label class="uppercase">{{locationId}}: </ion-label>Add To</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar  color="primary">
+      <ion-title slot="start">Location<ion-label class="uppercase">{{locationId}}:</ion-label>Add To</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <div class="border-2 border-[#6d6d6d] w-full inline-flex items-center">
+    <ion-input #inquiryInput placeholder="Search by product # or UPC" aria-label="Product Search"></ion-input>
+    <ion-icon
+    class="pr-4 text-black"
+    aria-hidden="true"
+    ios="search"
+    md="search-sharp"
+  ></ion-icon>
+  </div>
+  <ul>
+    <li *ngFor="let prod of products" class="bg-blue-100 p-2 border border-black">
+      #{{ prod }}
+    </li>
+   </ul>
+</ion-content>

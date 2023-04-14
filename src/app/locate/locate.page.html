@@ -6,31 +6,34 @@
  
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Locate</ion-title>
+    <ion-toolbar color="primary">
+      <ion-title>Locate</ion-title>
     </ion-toolbar>
   </ion-header>
   <div class="justify-center grid grid-cols-1 gap-4 p-2 bg-slate-300">
     <ion-row class="w-full flex items-center bg-white">
-        <ion-input placeholder="Search by product # or UPC"></ion-input>
+      <div class="border-2 border-[#6d6d6d] w-full inline-flex items-center">
+        <ion-input placeholder="Search by product # or UPC" aria-label="Product Search"></ion-input>
         <ion-icon
-          (click)="myFunction()"
           class="pr-4 text-black"
           aria-hidden="true"
-          slot=""
           ios="search"
           md="search-sharp"
         ></ion-icon>
+      </div>
+        
     </ion-row>
     <ion-row class="w-full flex items-center bg-white">
-        <ion-input placeholder="Enter a location code"></ion-input>
+      <div class="border-2 border-[#6d6d6d] w-full inline-flex items-center">
+        <ion-input #inquiryInput (ionChange)="getLocation($event)" placeholder="Enter a location code" aria-label="Product Search"></ion-input>
         <ion-icon
-          (click)="myFunction()"
+          (click)="getLocation($event)"
           class="pr-4"
           aria-hidden="true"
           ios="search"
           md="search-sharp"
         />
+      </div>
     </ion-row>
   </div>
 </ion-content>

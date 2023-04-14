@@ -19,6 +19,7 @@ export class InquiryPage implements OnInit {
   id: number = 0;
   name: string = '';
   price: number = 0;
+  location: Array<String> = [];
   thumbnail: string = '../../assets/no-image-2.jpg';
   inputValue: string = '';
   subscription: any;
@@ -40,7 +41,7 @@ export class InquiryPage implements OnInit {
   }
 
   viewProductDetails() {
-    const data = { name: this.name, price: this.price}
+    const data = { name: this.name, price: this.price, location: this.location}
     //alert("route to details");
     this.router.navigate(['/product-details'], {state: data});
   }
@@ -54,9 +55,11 @@ export class InquiryPage implements OnInit {
         this.name = res.name;
         this.price = res.price;
         this.thumbnail = res.thumbnail
+        this.location = res.location
         this.showElement = true;
         this.hideEle = false;
         this.inquiryInput.value = '';
+        console.log(this.location)
       } else {
         this.inquiryInput.value = '';
         this.presentToast();

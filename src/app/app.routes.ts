@@ -30,4 +30,8 @@ export const routes: Routes = [
     path: 'product-details',
     loadComponent: () => import('./product-details/product-details.page').then( m => m.ProductDetailsPage)
   },
+  {
+    path: 'fast-find',
+    loadComponent: () => import('./fast-find/fast-find.page').then( m => m.FastFindPage)
+  },
 ];

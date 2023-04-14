@@ -41,7 +41,7 @@
            </ion-col>
             <ion-col class="text-right flex flex-col items-end gap-14">
               <ion-row>
-                <div>$29.99</div>
+                <div>${{price}}</div>
               </ion-row>
               <ion-row>
                 <div>OH 33</div>
@@ -55,7 +55,7 @@
         <p class="bg-slate-500 text-white w-full p-1 font-semibold">On Order</p>
       <ion-row>
         <ion-row class="p-3">F/C: WH8 ST</ion-row>
-        <ion-row class="mt-12 w-10/12 mx-auto">
+        <ion-row class="w-10/12 mx-auto">
           <table class="w-full text-center">
             <thead class="bg-gray-300 text-black">
               <tr>
@@ -92,11 +92,9 @@
           </ion-col>
         </ion-row>
         <ion-row class="w-full mt-3">
-          <ion-row class="w-full">
             <p class="bg-slate-500 text-white w-full p-1 mb-3 font-semibold">Locations</p>
-          </ion-row>
-          <ion-col>
-            <table class="w-full text-center">
+          <ion-col *ngFor="let loc of location">
+            <table >
               <thead class="bg-gray-300 text-black">
                 <tr>
                   <th>Locations</th>
@@ -105,31 +103,19 @@
               </thead>
               <tbody>
                 <tr>
-                  <td>093R12</td>
-                  <td>10</td>
+                  <td> 
+                      {{ loc }}
+                    </td>
+                    <td>0</td>
                 </tr>
               </tbody>
             </table>
           </ion-col>
           <ion-col>
-            <table class="w-full text-center">
-              <thead class="bg-gray-300 text-black">
-                <tr>
-                  <th>Locations</th>
-                  <th>Bin Cap</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>W1102B</td>
-                  <td>0</td>
-                </tr>
-              </tbody>
-            </table>
+        
           </ion-col>
         </ion-row>
       </ion-row>
-     
         <ion-row class="w-full mt-3">
           <p class="bg-slate-500 text-white w-full p-1 mb-3 font-semibold">Last known locations</p>
         </ion-row>
