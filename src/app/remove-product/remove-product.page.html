@@ -1,13 +1,13 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
-    <ion-title class="text-white">Locate</ion-title>
+    <ion-title class="text-white">Remove Product</ion-title>
   </ion-toolbar>
 </ion-header>
  
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar color="primary">
-      <ion-title>Locate</ion-title>
+      <ion-title>Remove Product</ion-title>
     </ion-toolbar>
   </ion-header>
   <div class="justify-center grid grid-cols-1 gap-4 p-2 bg-slate-300">
@@ -20,19 +20,6 @@
           ios="search"
           md="search-sharp"
         ></ion-icon>
-      </div>
-        
-    </ion-row>
-    <ion-row class="w-full flex items-center bg-white">
-      <div class="border-2 border-[#6d6d6d] w-full inline-flex items-center">
-        <ion-input #inquiryInput (ionChange)="getLocationByCode($event)" placeholder="Enter a location code" aria-label="Product Search"></ion-input>
-        <ion-icon
-          (click)="getLocationByCode($event)"
-          class="pr-4"
-          aria-hidden="true"
-          ios="search"
-          md="search-sharp"
-        />
       </div>
     </ion-row>
   </div>

@@ -34,4 +34,12 @@ export const routes: Routes = [
     path: 'fast-find',
     loadComponent: () => import('./fast-find/fast-find.page').then( m => m.FastFindPage)
   },
+  {
+    path: 'maintain-location',
+    loadComponent: () => import('./maintain-location/maintain-location.page').then( m => m.MaintainLocationPage)
+  },
+  {
+    path: 'remove-product',
+    loadComponent: () => import('./remove-product/remove-product.page').then( m => m.RemoveProductPage)
+  },
 ];

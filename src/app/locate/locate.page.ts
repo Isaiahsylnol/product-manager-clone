@@ -2,8 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { DataService } from '../services/data.service';
 import { Router } from '@angular/router';
+import { SupabaseService } from '../services/supabase.service';
+import { ToastUtility } from '../utils/toast-utils';
 
 @Component({
   selector: 'app-locate',
@@ -13,23 +14,32 @@ import { Router } from '@angular/router';
   imports: [IonicModule, CommonModule, FormsModule],
 })
 export class LocatePage implements OnInit {
+  constructor(
+    private router: Router,
+    private dataService: SupabaseService,
+    private toastUtility: ToastUtility
+  ) {}
   @ViewChild('inquiryInput', { static: false }) inquiryInput: any;
 
   inputValue: string = '';
+  location: string = '';
+  data: any;
+  
+  showToast() {
+    this.toastUtility.showToast('Invalid Location Code', "warning");
+  }
 
-  constructor(private dataService: DataService, private router: Router) {}
-  getLocation(event: any) {
+  async getLocationByCode(event: any) {
     this.inputValue = event.detail.value;
-    this.dataService.getLocation(this.inputValue).subscribe((res) => {
-      if (res) {
-        const data = { location: res };
-        //alert("route to details");
-        this.router.navigate(['/fast-find'], { state: data });
-        this.inquiryInput.value = '';
-      } else {
-        this.inquiryInput.value = '';
-      }
-    });
+    this.data = await this.dataService.getLocationByCode(this.inputValue?.toUpperCase());
+    if (this.data[0]) {
+      this.router.navigate(['/maintain-location'], {
+        state: this.data,
+      });
+    } else {
+      console.warn('Invalid Location Code');
+      this.showToast();
+    }
   }
 
   ngOnInit() {}

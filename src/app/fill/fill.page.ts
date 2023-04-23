@@ -11,22 +11,19 @@ interface Option {
   templateUrl: './fill.page.html',
   styleUrls: ['./fill.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule, FormsModule],
 })
-
 export class FillPage implements OnInit {
-
   public options!: Array<Option>;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
-
- this.options = [
-      { title: 'Create List', url: '/inquiry'},
-      { title: 'Hole Checker', url: '/folder/outbox'},
-      { title: 'Fast Checker', url: '/folder/favorites'},
-      { title: 'Work With Pick List', url: '/folder/archived'},
+    this.options = [
+      { title: 'Create List', url: '/inquiry' },
+      { title: 'Hole Checker', url: '/' },
+      { title: 'Fast Checker', url: '/' },
+      { title: 'Work With Pick List', url: '/' },
     ];
   }
 }

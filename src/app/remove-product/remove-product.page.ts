@@ -4,15 +4,15 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.page.html',
-  styleUrls: ['./home.page.scss'],
+  selector: 'app-remove-product',
+  templateUrl: './remove-product.page.html',
+  styleUrls: ['./remove-product.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule]
 })
-export class HomePage implements OnInit {
+export class RemoveProductPage implements OnInit {
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit() {
   }

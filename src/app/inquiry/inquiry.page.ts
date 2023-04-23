@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, ToastController } from '@ionic/angular';
-import { DataService } from '../services/data.service';
+import { SupabaseService } from '../services/supabase.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -25,7 +25,7 @@ export class InquiryPage implements OnInit {
   subscription: any;
 
   constructor(
-    private dataService: DataService,
+    private dataService: SupabaseService,
     private toast: ToastController,
     private router: Router
   ) {}
@@ -41,34 +41,31 @@ export class InquiryPage implements OnInit {
   }
 
   viewProductDetails() {
-    const data = { name: this.name, price: this.price, location: this.location}
-    //alert("route to details");
-    this.router.navigate(['/product-details'], {state: data});
+    const data = {
+      name: this.name,
+      price: this.price,
+      location: this.location,
+    };
+    this.router.navigate(['/product-details'], { state: data });
   }
 
-  getProductBySku(event: any) {
+  async getProductBySku(event?: any) {
     this.inputValue = event.detail.value;
-    this.dataService.getProductBySku(event.detail.value).subscribe((res) => {
-      console.log(res)
-      if (res) {
-        this.id = Number(res.sku);
-        this.name = res.name;
-        this.price = res.price;
-        this.thumbnail = res.thumbnail
-        this.location = res.location
-        this.showElement = true;
-        this.hideEle = false;
-        this.inquiryInput.value = '';
-        console.log(this.location)
-      } else {
-        this.inquiryInput.value = '';
-        this.presentToast();
-      }
-    });
+    const res = await this.dataService.getProductBySku(this.inputValue);
+    console.log(res);
+    if (res) {
+      this.id = Number(res.sku);
+      this.name = res.name;
+      this.price = res.price;
+      this.thumbnail = res.thumbnail;
+      this.showElement = true;
+      this.hideEle = false;
+      this.inquiryInput.value = '';
+    } else {
+      this.inquiryInput.value = '';
+      this.presentToast();
+    }
   }
+  
   ngOnInit() {}
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
 }
