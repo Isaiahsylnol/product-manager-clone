@@ -14,9 +14,9 @@
   <ion-grid>
     <ion-row>
       <div class="border-2 border-[#6d6d6d] w-full inline-flex items-center">
-        <ion-input #inquiryInput placeholder="Search By Product Number, UPC or Description" (ionChange)="getProductBySku($event)" aria-label="Product Search"></ion-input>
+        <ion-input placeholder="Search By Product Number, UPC or Description" [(ngModel)]="inputValue" (keypress)="onKeyPress($event)" aria-label="Product Search"></ion-input>
         <ion-icon
-        (click)="getProductBySku($event)"
+        (click)="getProductBySku()"
         class="pr-4 text-black"
         aria-hidden="true"
         ios="search"
@@ -35,7 +35,7 @@
           <ion-grid>
             <ion-row class="w-full grid grid-cols-2">
               <ion-col>
-                <div class="float-left">Product #51-1018</div>
+                <div class="float-left">Product #{{ sku }}</div>
               </ion-col>
               <ion-col>
                 <div class="float-right">A/A/| OH 2</div>
@@ -67,7 +67,7 @@
         <ion-col>
           <div class="w-full grid grid-cols-2">
             <ion-col>
-              <div class="float-left text-xl">Reg. ${{price}}</div>
+              <div class="float-left text-xl">Reg. ${{ price }}</div>
             </ion-col>
             <ion-col>
               <div class="float-right text-xl">Sale $129.99</div>
@@ -86,7 +86,7 @@
         <ion-col class="flex flex-col items-center">
           <h6 class="uppercase">Locations</h6>
          <ul>
-          <li *ngFor="let loc of location">
+          <li *ngFor="let loc of locations">
             {{ loc }}
           </li>
          </ul>

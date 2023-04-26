@@ -1,7 +1,17 @@
 import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { enviroment } from 'src/environments/enviroment';
-
+import { enviroment } from '../../enviroments/enviroment';
+interface ProductLocation {
+  location_id: string;
+  // add other properties as needed
+}
+interface Product {
+  sku: string;
+  name: string;
+  price: number;
+  thumbnail: string;
+  // add other properties as needed
+}
 @Injectable({
   providedIn: 'root',
 })
@@ -27,7 +37,7 @@ export class SupabaseService {
     return data;
   }
 
-  async getProductBySku(sku: string) {
+  async getProductBySku(sku: string): Promise<Product | null>  {
     const { data, error } = await this.supabase
       .from('Products')
       .select('sku, name, price, thumbnail')
@@ -39,6 +49,19 @@ export class SupabaseService {
       return null;
     }
     return data;
+  }
+
+  async getProductLocations(sku: string): Promise<ProductLocation[] | null> {
+    const { data, error } = await this.supabase
+      .from('product_locations')
+      .select('location_id')
+      .eq('product_sku', sku);
+
+      if (error) {
+        console.error(error);
+        return null;
+      }
+      return data;
   }
 
   async getProductInLocation(loc: string) {

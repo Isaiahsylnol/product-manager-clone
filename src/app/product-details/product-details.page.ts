@@ -17,21 +17,40 @@ interface Product {
 
 export class ProductDetailsPage implements OnInit {
   @ViewChild('inquiryInput', { static: false }) inquiryInput: any;
+ 
+  location: Array<Product> = []
+  id: number = 0;
   name: string = '';
   price: number = 0;
-  inputValue: any;
-  location: Array<Product> = []
-  thumbnail: any;
+  locations: Array<String> = [];
+  thumbnail: string = '../../assets/no-image-2.jpg';
+  inputValue: string = '';
+  data: any;
+  sku: any;
 
   constructor(private dataService: SupabaseService) { }
  
-  async getProductBySku(event: any) {
+  async getProductBySku(event?: any) {
     this.inputValue = event.detail.value;
     const res = await this.dataService.getProductBySku(this.inputValue);
+    if (res) {
+      this.data = await this.dataService.getProductLocations(res.sku);
+      for (let location in this.data) {
+        this.locations.push(this.data[location]['location_id']);
+      }
+      this.id = Number(res.sku);
+      this.name = res.name;
+      this.price = res.price;
+      this.thumbnail = res.thumbnail;
+      this.inquiryInput.value = '';
+    } else {
+      this.inquiryInput.value = '';
+    }
   }
 
   ngOnInit() {
     const data = history.state;
+    this.sku = data.sku;
     this.name = data.name;
     this.price = data.price;
     this.location = data.location;

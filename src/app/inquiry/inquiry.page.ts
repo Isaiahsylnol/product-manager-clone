@@ -13,16 +13,16 @@ import { Router } from '@angular/router';
   imports: [IonicModule, CommonModule, FormsModule],
 })
 export class InquiryPage implements OnInit {
-  @ViewChild('inquiryInput', { static: false }) inquiryInput: any;
-  showElement = false;
-  hideEle = true;
-  id: number = 0;
+  showElement: boolean = false;
+  hideEle: boolean = true;
+ 
   name: string = '';
   price: number = 0;
-  location: Array<String> = [];
+  locations: string[] = [];
   thumbnail: string = '../../assets/no-image-2.jpg';
   inputValue: string = '';
-  subscription: any;
+  data: any | undefined;
+  sku: string | null = null;
 
   constructor(
     private dataService: SupabaseService,
@@ -40,32 +40,39 @@ export class InquiryPage implements OnInit {
     toaster.present();
   }
 
-  viewProductDetails() {
-    const data = {
-      name: this.name,
-      price: this.price,
-      location: this.location,
-    };
+  viewProductDetails(): void {
+    const { name, price, sku, locations } = this;
+    const data = { name, price, sku, location: locations };
     this.router.navigate(['/product-details'], { state: data });
   }
 
-  async getProductBySku(event?: any) {
-    this.inputValue = event.detail.value;
+  async getProductBySku(): Promise<void> {
     const res = await this.dataService.getProductBySku(this.inputValue);
-    console.log(res);
-    if (res) {
-      this.id = Number(res.sku);
-      this.name = res.name;
-      this.price = res.price;
-      this.thumbnail = res.thumbnail;
-      this.showElement = true;
-      this.hideEle = false;
-      this.inquiryInput.value = '';
-    } else {
-      this.inquiryInput.value = '';
+
+    if (!res) {
+      this.inputValue = '';
       this.presentToast();
+      return;
+    }
+
+    this.data = await this.dataService.getProductLocations(res.sku);
+    this.locations = this.data.map(
+      (item: { location_id: any }) => item.location_id
+    );
+    this.sku = res.sku;
+    this.name = res.name;
+    this.price = res.price;
+    this.thumbnail = res.thumbnail;
+    this.showElement = true;
+    this.hideEle = false;
+    this.inputValue = '';
+  }
+
+  onKeyPress(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      this.getProductBySku();
     }
   }
-  
+
   ngOnInit() {}
 }

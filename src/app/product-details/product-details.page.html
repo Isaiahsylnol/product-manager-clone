@@ -21,6 +21,7 @@
       <div class="border-2 border-[#6d6d6d] w-full inline-flex items-center">
         <ion-input #inquiryInput placeholder="Search By Product Number, UPC or Description" (ionChange)="getProductBySku($event)" aria-label="Product Search"></ion-input>
         <ion-icon
+        (click)="getProductBySku($event)"
         class="pr-4 text-black"
         aria-hidden="true"
         ios="search"
@@ -36,12 +37,12 @@
                 <ion-img src='../../assets/no-image-2.jpg' alt="Default placeholder image"></ion-img>
             </ion-col>
             <ion-col>
-              <ion-row class="font-semibold">#142-3256</ion-row>
-          <ion-row><p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p> </ion-row> 
+              <ion-row class="font-semibold">#{{ sku }}</ion-row>
+          <ion-row><p>{{ name }}</p> </ion-row> 
            </ion-col>
             <ion-col class="text-right flex flex-col items-end gap-14">
               <ion-row>
-                <div>${{price}}</div>
+                <div>${{ price }}</div>
               </ion-row>
               <ion-row>
                 <div>OH 33</div>
@@ -104,7 +105,7 @@
               <tbody>
                 <tr>
                   <td> 
-                      {{loc}}
+                      {{ loc }}
                     </td>
                     <td>0</td>
                 </tr>
