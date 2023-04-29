@@ -53,6 +53,7 @@ export class ProductDetailsPage implements OnInit {
     this.sku = data.sku;
     this.name = data.name;
     this.price = data.price;
+    this.thumbnail = data.thumbnail;
     this.location = data.location;
   }
 }

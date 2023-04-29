@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, ToastController } from '@ionic/angular';
@@ -30,7 +30,7 @@ export class InquiryPage implements OnInit {
     private router: Router
   ) {}
 
-  async presentToast() {
+  async presentToast(): Promise<void> {
     const toaster = await this.toast.create({
       message: 'Invalid Sku Entered',
       position: 'middle',
@@ -41,8 +41,8 @@ export class InquiryPage implements OnInit {
   }
 
   viewProductDetails(): void {
-    const { name, price, sku, locations } = this;
-    const data = { name, price, sku, location: locations };
+    const { name, price, sku, locations, thumbnail } = this;
+    const data = { name, price, sku, thumbnail, location: locations };
     this.router.navigate(['/product-details'], { state: data });
   }
 
