@@ -40,7 +40,7 @@ export class MaintainLocationPage implements OnInit {
       { title: 'Add to', url: '/fast-find' },
       { title: 'Bin cap', url: '/folder/outbox' },
       { title: 'Remove From', url: '/remove-product' },
-      { title: 'View All', url: '/folder/archived' },
+      { title: 'View All', url: '/view-all' },
       { title: 'Remove All', url: '/folder/archived' },
     ];
   }

@@ -1,0 +1,40 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title class="text-white">Create List</ion-title>
+  </ion-toolbar>
+</ion-header>
+ 
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar color="primary">
+      <ion-title>Create List</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <div class="justify-center grid grid-cols-1 gap-4 p-2 bg-slate-300">
+    <ion-row class="w-full flex items-center bg-white">
+      <div class="border-2 border-[#6d6d6d] w-full inline-flex items-center">
+        <ion-input placeholder="Scan or enter SKU or UPC code" aria-label="Product Search"></ion-input>
+        <ion-icon
+          class="pr-4 text-black"
+          aria-hidden="true"
+          ios="search"
+          md="search-sharp"
+        ></ion-icon>
+      </div>
+        
+    </ion-row>
+    <ion-row class="w-full flex items-center bg-white">
+      <div class="border-2 border-[#6d6d6d] w-full inline-flex items-center">
+        <ion-input placeholder="LIST NAME" aria-label="Product Search"></ion-input>
+       <p class="uppercase pr-4 text-blue-500">Isaiah</p>
+
+       
+      </div>
+    </ion-row>
+    <ion-col *ngIf="hideEle" class="flex flex-col items-center pt-10 bg-white">
+      <span class="text-7xl font-semibold uppercase">scan</span>
+      <span class="text-3xl uppercase">Product</span>
+      <ion-img src='../../assets/UPCAcode.png' alt="UPCAcode placeholder image"></ion-img>
+    </ion-col>
+  </div>
+</ion-content>

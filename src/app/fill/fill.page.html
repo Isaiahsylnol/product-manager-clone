@@ -12,7 +12,7 @@
   </ion-header>
  
   <div *ngFor="let option of options; let i = index" lines="none" >
-   <a href={{option.url}} class="p-4 m-8 bg-blue-600 text-white items flex items-center">
+   <a routerLink={{option.url}} class="p-4 m-8 bg-blue-600 text-white items flex items-center">
     <ion-icon aria-hidden="true" slot="start" ios="document-text" md="document-text" class="pr-4"></ion-icon>
     <ion-label>{{options[i].title}}</ion-label>
    </a>
