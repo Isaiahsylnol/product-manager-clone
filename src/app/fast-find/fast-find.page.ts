@@ -12,13 +12,13 @@ import { ToastUtility } from '../utils/toast-utils';
   imports: [IonicModule, CommonModule, FormsModule],
 })
 export class FastFindPage implements OnInit {
-  products: Array<any> = [];
+  products: any;
   locationId: string = '';
   inputValue: string = '';
   data: any;
   constructor(
     private dataService: SupabaseService,
-    private toastUtility: ToastUtility
+    private toastUtility: ToastUtility,
   ) {}
 
   showToast() {
@@ -46,19 +46,9 @@ export class FastFindPage implements OnInit {
     }
   }
 
-  async getLocProducts(loc: string) {
-    this.data = await this.dataService.getProductInLocation(loc);
-    for (let product in this.data) {
-      this.products.push({
-        name: this.data[product]['name'],
-        sku: this.data[product]['product_sku'],
-      });
-    }
-  }
-
-  ngOnInit() {
+  async ngOnInit() {
     const data = history.state;
     this.locationId = data[0]['code'];
-    this.getLocProducts(data[0]['code']);
+    this.products = await this.dataService.getProductInLocation(this.locationId);
   }
 }

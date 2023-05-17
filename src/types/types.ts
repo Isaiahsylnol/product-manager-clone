@@ -9,7 +9,7 @@
     thumbnail: string;
   }
   export interface ProductInLocation {
-    product_sku: string;
+    sku: string;
     name: string;
   }
   

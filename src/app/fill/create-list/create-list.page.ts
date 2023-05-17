@@ -2,20 +2,47 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-
+import { SupabaseService } from 'src/app/services/supabase.service';
+import { ToastUtility } from '../../utils/toast-utils';
 @Component({
   selector: 'app-create-list',
   templateUrl: './create-list.page.html',
   styleUrls: ['./create-list.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule, FormsModule],
 })
 export class CreateListPage implements OnInit {
   hideEle: boolean = true;
+  products: Array<any> = [];
+  inputValue: string = '';
 
-  constructor() { }
+  constructor(
+    private dataService: SupabaseService,
+    private toastUtility: ToastUtility,
+  ) {}
 
-  ngOnInit() {
+  showToast() {
+    this.toastUtility.showToast('Invalid Sku Entered', 'warning');
   }
 
+  async createPickList(): Promise<void> {
+    const regexPattern = /^(\d{2,3})-(\d{4})$/; // Regex pattern for "132-2222 and 43-3333"
+
+    if (!regexPattern.test(this.inputValue)) {
+      this.showToast();
+      return;
+    }
+
+    const ans = await this.dataService.getProductBySku(this.inputValue);
+    if (this.inputValue) this.products.push(ans);
+    this.inputValue = '';
+    this.hideEle = false;
+  }
+  onKeyPress(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      this.createPickList();
+    }
+  }
+
+  ngOnInit() {}
 }

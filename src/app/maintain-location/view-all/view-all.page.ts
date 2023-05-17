@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { SupabaseService } from 'src/app/services/supabase.service';
 
 @Component({
   selector: 'app-view-all',
@@ -11,11 +12,17 @@ import { IonicModule } from '@ionic/angular';
   imports: [IonicModule, CommonModule, FormsModule]
 })
 export class ViewAllPage implements OnInit {
-  products = [{"sku":"121-3221", "name":"Baseball MLB Gr"}]
+  products: any;
+  data: any;
+  count: number = 0;
+  locationId: string = '';
+ 
+  constructor(private dataService: SupabaseService,) { }
 
-  constructor() { }
-
-  ngOnInit() {
+  async ngOnInit() {
+    const data = history.state;
+    this.locationId = data[0]['code'];
+    this.products = await this.dataService.getProductInLocation(this.locationId);
+    this.count = this.products.length;
   }
-
 }

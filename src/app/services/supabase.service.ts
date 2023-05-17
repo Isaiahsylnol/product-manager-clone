@@ -46,7 +46,7 @@ export class SupabaseService {
     const { data, error } = await this.supabase
       .from('product_locations')
       .select('location_id')
-      .eq('product_sku', sku);
+      .eq('sku', sku);
 
       if (error) {
         console.error(error);
@@ -58,7 +58,7 @@ export class SupabaseService {
   async getProductInLocation(loc: string): Promise<ProductInLocation[] | null> {
     const { data, error } = await this.supabase
       .from('product_locations')
-      .select('product_sku, name')
+      .select('sku, name')
       .eq('location_id', loc);
 
     if (error) {
@@ -77,7 +77,7 @@ export class SupabaseService {
       await this.supabase
         .from('product_locations')
         .select('*')
-        .eq('product_sku', productSku)
+        .eq('sku', productSku)
         .eq('location_id', location_code)
         .single();
 
@@ -92,7 +92,7 @@ export class SupabaseService {
       const { error: insertError } = await this.supabase
         .from('product_locations')
         .insert({
-          product_sku: productSku,
+          sku: productSku,
           name: prod_name,
           location_id: location_code,
         });

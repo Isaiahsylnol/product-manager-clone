@@ -1,18 +1,17 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
-    <ion-title class="text-white">View All</ion-title>
+    <ion-title class="text-white">Location {{ this.locationId }}: View All</ion-title>
   </ion-toolbar>
 </ion-header>
  
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar color="primary">
-      <ion-title>View All</ion-title>
+      <ion-title>Location {{ this.locationId }}: View All</ion-title>
     </ion-toolbar>
   </ion-header>
-  <div class="justify-center w-full p-2 bg-slate-300">
-    <ion-row class="p-3">
-      <p>8 products(s)</p>
+    <ion-row class="bg-slate-300 p-3">
+      <p>{{ count }} products(s)</p>
     </ion-row>
     <ion-row>
       <ul class="w-full">
@@ -26,6 +25,4 @@
         </li>
        </ul>
     </ion-row>
- 
-  </div>
 </ion-content>

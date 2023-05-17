@@ -1,6 +1,16 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
     <ion-title class="text-white">Create List</ion-title>
+    <ion-buttons slot="end" class="h-full bg-slate-500 p-3">
+      <ion-button>
+        <ion-icon
+        class="text-white text-2xl"
+        aria-hidden="true"
+        ios="print-outline"
+        md="print-outline"
+      ></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
  
@@ -8,27 +18,35 @@
   <ion-header collapse="condense">
     <ion-toolbar color="primary">
       <ion-title>Create List</ion-title>
+      <ion-buttons slot="end" class="h-full bg-slate-500 p-3">
+        <ion-button>
+          <ion-icon
+          class="text-white text-2xl"
+          aria-hidden="true"
+          ios="print-outline"
+          md="print-outline"
+        ></ion-icon>
+        </ion-button>
+      </ion-buttons>
     </ion-toolbar>
   </ion-header>
   <div class="justify-center grid grid-cols-1 gap-4 p-2 bg-slate-300">
     <ion-row class="w-full flex items-center bg-white">
       <div class="border-2 border-[#6d6d6d] w-full inline-flex items-center">
-        <ion-input placeholder="Scan or enter SKU or UPC code" aria-label="Product Search"></ion-input>
+        <ion-input [(ngModel)]="inputValue" (keypress)="onKeyPress($event)" placeholder="Scan or enter SKU or UPC code" aria-label="Product Search"></ion-input>
         <ion-icon
+        (click)="createPickList()"
           class="pr-4 text-black"
           aria-hidden="true"
           ios="search"
           md="search-sharp"
         ></ion-icon>
       </div>
-        
     </ion-row>
     <ion-row class="w-full flex items-center bg-white">
       <div class="border-2 border-[#6d6d6d] w-full inline-flex items-center">
         <ion-input placeholder="LIST NAME" aria-label="Product Search"></ion-input>
        <p class="uppercase pr-4 text-blue-500">Isaiah</p>
-
-       
       </div>
     </ion-row>
     <ion-col *ngIf="hideEle" class="flex flex-col items-center pt-10 bg-white">
@@ -36,5 +54,16 @@
       <span class="text-3xl uppercase">Product</span>
       <ion-img src='../../assets/UPCAcode.png' alt="UPCAcode placeholder image"></ion-img>
     </ion-col>
+    <ul>
+      <li *ngFor="let prod of products; let i = index" class="bg-blue-100 p-2 border text-sm border-black">
+        <div>
+          <p>#{{ products[i].sku }}</p>
+          <p>{{ products[i].name }}</p>
+        <p></p>
+        </div>
+        <div>
+        </div>
+      </li>
+     </ul>
   </div>
 </ion-content>
