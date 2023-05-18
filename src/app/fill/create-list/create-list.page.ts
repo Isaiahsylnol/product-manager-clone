@@ -15,6 +15,9 @@ export class CreateListPage implements OnInit {
   hideEle: boolean = true;
   products: Array<any> = [];
   inputValue: string = '';
+  inputListName: string = '';
+  res: any;
+  val: string = "JOHN"
 
   constructor(
     private dataService: SupabaseService,
@@ -26,6 +29,9 @@ export class CreateListPage implements OnInit {
   }
 
   async createPickList(): Promise<void> {
+    if(!this.inputListName){
+      this.inputListName = this.val;
+    }
     const regexPattern = /^(\d{2,3})-(\d{4})$/; // Regex pattern for "132-2222 and 43-3333"
 
     if (!regexPattern.test(this.inputValue)) {
@@ -33,16 +39,19 @@ export class CreateListPage implements OnInit {
       return;
     }
 
-    const ans = await this.dataService.getProductBySku(this.inputValue);
-    if (this.inputValue) this.products.push(ans);
+     this.res = await this.dataService.getProductBySku(this.inputValue);
+    if (this.inputValue) this.products.push(this.res);
+ 
+   this.dataService.createPickList(this.inputListName, this.res.sku);
     this.inputValue = '';
     this.hideEle = false;
   }
+
   onKeyPress(event: KeyboardEvent): void {
     if (event.key === 'Enter') {
       this.createPickList();
     }
   }
 
-  ngOnInit() {}
+ ngOnInit() {}
 }

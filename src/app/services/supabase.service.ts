@@ -55,6 +55,34 @@ export class SupabaseService {
       return data;
   }
 
+   async createPickList(name: string, sku: string): Promise<void>{
+      const { error: insertError } = await this.supabase
+        .from('pick_lists')
+        .insert({
+          user: 1,
+          name: name,
+          product: sku,
+        });
+
+      if (insertError) {
+        console.error('Error creating list: ', insertError);
+        //return false;
+      }
+  }
+
+  async getPickList(name: string): Promise<any[] | null> {
+    const { data, error } = await this.supabase
+      .from('pick_lists')
+      .select('product, name')
+      .eq('name', name);
+
+    if (error) {
+      console.error(error);
+      return null;
+    }
+    return data;
+  }
+
   async getProductInLocation(loc: string): Promise<ProductInLocation[] | null> {
     const { data, error } = await this.supabase
       .from('product_locations')
@@ -67,11 +95,12 @@ export class SupabaseService {
     }
     return data;
   }
+  
   async assignProductToLocation(
     productSku: string,
     prod_name: string,
     location_code: string
-  ) {
+  ): Promise<boolean> {
     // Check if a location already exists for this product
     const { data: productLocation, error: productLocationError } =
       await this.supabase
