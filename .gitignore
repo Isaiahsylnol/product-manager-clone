@@ -67,3 +67,7 @@ testem.log
 .DS_Store
 Thumbs.db
 enviroments
+backend/app-data-source.js
+.gitignore
+app-data-source.js
+backend/app-data-source.ts
