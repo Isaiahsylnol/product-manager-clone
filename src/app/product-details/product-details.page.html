@@ -18,31 +18,19 @@
   </ion-header>
   <ion-grid>
     <ion-row>
-      <div class="border-2 border-[#6d6d6d] w-full inline-flex items-center">
-        <ion-input #inquiryInput placeholder="Search By Product Number, UPC or Description" (ionChange)="getProductBySku($event)" aria-label="Product Search"></ion-input>
-        <ion-icon
-        (click)="getProductBySku($event)"
-        class="pr-4 text-black"
-        aria-hidden="true"
-        ios="search"
-        md="search-sharp"
-      ></ion-icon>
-      </div>
-    </ion-row>
-    <ion-row>
       <ion-col>
         <div class="text-black">
           <ion-row>
             <ion-col>
-              <ion-img src={{thumbnail}} alt="Default placeholder image"></ion-img>
+              <ion-img src={{product.thumbnail}} alt="Default placeholder image"></ion-img>
             </ion-col>
             <ion-col>
-              <ion-row class="font-semibold">#{{ sku }}</ion-row>
-          <ion-row><p>{{ name }}</p> </ion-row> 
+              <ion-row class="font-semibold">#{{ product.sku }}</ion-row>
+          <ion-row><p>{{ product.name }}</p> </ion-row> 
            </ion-col>
             <ion-col class="text-right flex flex-col items-end gap-14">
               <ion-row>
-                <div>${{ price }}</div>
+                <div>${{ product.price }}</div>
               </ion-row>
               <ion-row>
                 <div>OH 33</div>
@@ -94,7 +82,7 @@
         </ion-row>
         <ion-row class="w-full mt-3">
             <p class="bg-slate-500 text-white w-full p-1 mb-3 font-semibold">Locations</p>
-          <ion-col *ngFor="let loc of location">
+          <ion-col *ngFor="let loc of locations">
             <table >
               <thead class="bg-gray-300 text-black">
                 <tr>

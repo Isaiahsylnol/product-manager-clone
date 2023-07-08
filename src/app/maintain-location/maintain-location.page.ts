@@ -10,9 +10,10 @@ interface Option {
 }
 
 interface Product {
-  name: string,
-  sku: string
+  name: string;
+  sku: string;
 }
+
 @Component({
   selector: 'app-maintain-location',
   templateUrl: './maintain-location.page.html',
@@ -21,27 +22,29 @@ interface Product {
   imports: [IonicModule, CommonModule, FormsModule],
 })
 export class MaintainLocationPage implements OnInit {
-  public options!: Array<Option>;
-  locationId: string = '';
+  options: Option[] = [
+    { title: 'Add to', url: '/fast-find' },
+    { title: 'Bin cap', url: '/folder/outbox' },
+    { title: 'Remove From', url: '/remove-product' },
+    { title: 'View All', url: '/view-all' },
+    { title: 'Remove All', url: '/folder/archived' }
+  ];
+  locationId = '';
   data: any;
-  products: Product  = { name: "", sku: ""} 
+  products: Product = { name: '', sku: '' };
 
   constructor(private router: Router) {}
 
   passData(route: string) {
-    this.router.navigate([route], { state: this.data });
+    this.router.navigate([route], {
+      state: {
+        products: this.data.products,
+        location: this.data.location
+      }
+    });
   }
 
   ngOnInit() {
     this.data = history.state;
-    this.products = this.data;
-    this.locationId = this.data['code'];
-    this.options = [
-      { title: 'Add to', url: '/fast-find' },
-      { title: 'Bin cap', url: '/folder/outbox' },
-      { title: 'Remove From', url: '/remove-product' },
-      { title: 'View All', url: '/view-all' },
-      { title: 'Remove All', url: '/folder/archived' },
-    ];
   }
 }

@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { SupabaseService } from '../services/supabase.service';
 import { ToastUtility } from '../utils/toast-utils';
+import axios from 'axios';
+import { environment } from 'src/enviroments/environment';
 
 @Component({
   selector: 'app-locate',
@@ -13,32 +14,42 @@ import { ToastUtility } from '../utils/toast-utils';
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule],
 })
+
 export class LocatePage implements OnInit {
+  @ViewChild('inquiryInput', { static: false }) inquiryInput: any;
+  inputValue = '';
+  location = '';
+
   constructor(
     private router: Router,
-    private dataService: SupabaseService,
     private toastUtility: ToastUtility
   ) {}
-  @ViewChild('inquiryInput', { static: false }) inquiryInput: any;
 
-  inputValue: string = '';
-  location: string = '';
-  data: any;
-  
-  showToast() {
-    this.toastUtility.showToast('Invalid Location Code', "warning");
+  onKeyPress(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      this.addProductToBunk();
+    }
   }
+  async addProductToBunk() {
+    console.log(this.inputValue)
 
-  async getLocationByCode(event: any) {
-    this.inputValue = event.detail.value;
-    this.data = await this.dataService.getLocationByCode(this.inputValue?.toUpperCase());
-    if (this.data[0]) {
-      this.router.navigate(['/maintain-location'], {
-        state: this.data,
+    try {
+      const response = await axios.post(`${environment.apiUrl}/bunk`, {
+        sku: this.inputValue,
       });
-    } else {
-      console.warn('Invalid Location Code');
-      this.showToast();
+      console.log(response.data)
+
+      if (response.data) {
+        const state = {
+          products: response.data,
+          location: this.inputValue,
+        };
+        this.router.navigate(['/maintain-location'], { state });
+      } else {
+        this.toastUtility.showToast('Invalid Location Code', 'warning');
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
 

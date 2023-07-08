@@ -11,9 +11,9 @@
     </ion-toolbar>
   </ion-header>
   <div class="border-2 border-[#6d6d6d] w-full inline-flex items-center">
-    <ion-input #inquiryInput placeholder="Search by product # or UPC" (ionChange)="addProductToLocation($event)" aria-label="Location Search"></ion-input>
+    <ion-input #inquiryInput placeholder="Add by product # or UPC" (keyup.enter)="addProductToLocation()" aria-label="Product UPCA Input"></ion-input>
     <ion-icon
-    (click)="addProductToLocation($event)"
+    (click)="addProductToLocation()"
     class="pr-4 text-black"
     aria-hidden="true"
     ios="search"

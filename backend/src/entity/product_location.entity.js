@@ -9,34 +9,28 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Location = void 0;
+exports.ProductLocation = void 0;
 var typeorm_1 = require("typeorm");
 var product_entity_1 = require("./product.entity");
-var bunk_1 = require("./bunk");
-var Location = exports.Location = /** @class */ (function () {
-    function Location() {
+var bunk_entity_1 = require("./bunk.entity");
+var ProductLocation = exports.ProductLocation = /** @class */ (function () {
+    function ProductLocation() {
     }
     __decorate([
-        (0, typeorm_1.PrimaryColumn)(),
-        __metadata("design:type", String)
-    ], Location.prototype, "bunk_sku", void 0);
-    __decorate([
-        (0, typeorm_1.PrimaryColumn)(),
-        __metadata("design:type", String)
-    ], Location.prototype, "product_sku", void 0);
+        (0, typeorm_1.PrimaryGeneratedColumn)(),
+        __metadata("design:type", Number)
+    ], ProductLocation.prototype, "id", void 0);
     __decorate([
         (0, typeorm_1.ManyToOne)(function () { return product_entity_1.Product; }, function (product) { return product.sku; }),
-        (0, typeorm_1.JoinColumn)({ name: 'product_sku' }),
         __metadata("design:type", product_entity_1.Product)
-    ], Location.prototype, "product", void 0);
+    ], ProductLocation.prototype, "product", void 0);
     __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return bunk_1.Bunk; }, function (location) { return location.bunk_sku; }),
-        (0, typeorm_1.JoinColumn)({ name: 'bunk_sku' }),
-        __metadata("design:type", bunk_1.Bunk)
-    ], Location.prototype, "location", void 0);
-    Location = __decorate([
+        (0, typeorm_1.ManyToOne)(function () { return bunk_entity_1.Bunk; }, function (bunk) { return bunk.products; }),
+        __metadata("design:type", bunk_entity_1.Bunk)
+    ], ProductLocation.prototype, "bunk", void 0);
+    ProductLocation = __decorate([
         (0, typeorm_1.Entity)(),
-        (0, typeorm_1.Unique)(['bunk_sku', 'product_sku'])
-    ], Location);
-    return Location;
+        (0, typeorm_1.Unique)(['product', 'bunk'])
+    ], ProductLocation);
+    return ProductLocation;
 }());

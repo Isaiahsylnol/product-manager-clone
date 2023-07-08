@@ -36,10 +36,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fastFindProduct = exports.getProductBySku = exports.getProducts = void 0;
+exports.getProductsByLocation = exports.createProductLocation = exports.getLocatedProduct = exports.getProductBySku = exports.getCategoryById = exports.getProducts = void 0;
 var app_data_source_1 = require("../../app-data-source");
 var product_entity_1 = require("../entity/product.entity");
-var location_1 = require("../entity/location");
+var bunk_entity_1 = require("../entity/bunk.entity");
+var product_location_entity_1 = require("../entity/product_location.entity");
 var getProducts = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var prods;
     return __generator(this, function (_a) {
@@ -53,12 +54,12 @@ var getProducts = function (req, res) { return __awaiter(void 0, void 0, void 0,
     });
 }); };
 exports.getProducts = getProducts;
-var getProductBySku = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+var getCategoryById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var prod;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, app_data_source_1.myDataSource
-                    .getRepository(product_entity_1.Product)
+                    .getRepository(bunk_entity_1.Bunk)
                     .findOneBy({ sku: req.body.sku })];
             case 1:
                 prod = _a.sent();
@@ -67,32 +68,107 @@ var getProductBySku = function (req, res) { return __awaiter(void 0, void 0, voi
         }
     });
 }); };
-exports.getProductBySku = getProductBySku;
-var fastFindProduct = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var bunk, prod, error_1;
+exports.getCategoryById = getCategoryById;
+var getProductBySku = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var sku, prod;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                bunk = req.body.bunk;
-                _a.label = 1;
-            case 1:
-                _a.trys.push([1, 3, , 4]);
+                sku = req.body.sku;
+                console.log(sku);
                 return [4 /*yield*/, app_data_source_1.myDataSource
-                        .getRepository(location_1.Location)
-                        .createQueryBuilder('location')
-                        .innerJoin('product.location', 'loc')
-                        .where('loc.bunk_id = :bunk_id', { bunk_id: bunk })
-                        .getMany()];
-            case 2:
+                        .getRepository(product_entity_1.Product)
+                        .createQueryBuilder("product")
+                        .leftJoinAndSelect("product.productLocations", "productLocation")
+                        .leftJoinAndSelect("productLocation.bunk", "bunk")
+                        .where("product.sku = :sku", { sku: sku })
+                        .getOne()];
+            case 1:
                 prod = _a.sent();
                 res.send(prod);
-                return [3 /*break*/, 4];
-            case 3:
-                error_1 = _a.sent();
-                res.status(500).send('Error querying the composite/join table');
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
+                return [2 /*return*/];
         }
     });
 }); };
-exports.fastFindProduct = fastFindProduct;
+exports.getProductBySku = getProductBySku;
+var getLocatedProduct = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var prod;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, app_data_source_1.myDataSource
+                    .getRepository(product_location_entity_1.ProductLocation)
+                    .createQueryBuilder("productLocation")
+                    .leftJoinAndSelect("productLocation.product", "product")
+                    .leftJoinAndSelect("productLocation.bunk", "bunk")
+                    .getMany()];
+            case 1:
+                prod = _a.sent();
+                res.send(prod);
+                return [2 /*return*/];
+        }
+    });
+}); };
+exports.getLocatedProduct = getLocatedProduct;
+var createProductLocation = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, prodSku, locSku, product, bunk, productLocation, error_1;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _a = req.body, prodSku = _a.prodSku, locSku = _a.locSku;
+                _b.label = 1;
+            case 1:
+                _b.trys.push([1, 5, , 6]);
+                return [4 /*yield*/, app_data_source_1.myDataSource
+                        .getRepository(product_entity_1.Product)
+                        .findOne({ where: { sku: prodSku } })];
+            case 2:
+                product = _b.sent();
+                return [4 /*yield*/, app_data_source_1.myDataSource
+                        .getRepository(bunk_entity_1.Bunk)
+                        .findOne({ where: { sku: locSku } })];
+            case 3:
+                bunk = _b.sent();
+                if (!product || !bunk) {
+                    return [2 /*return*/, res.status(404).send({ message: "Product or Bunk not found" })];
+                }
+                productLocation = new product_location_entity_1.ProductLocation();
+                productLocation.product = product;
+                productLocation.bunk = bunk;
+                return [4 /*yield*/, app_data_source_1.myDataSource
+                        .getRepository(product_location_entity_1.ProductLocation)
+                        .save(productLocation)];
+            case 4:
+                _b.sent();
+                res.send({ message: "Product successfully added to fast-find bunk" });
+                return [3 /*break*/, 6];
+            case 5:
+                error_1 = _b.sent();
+                console.error("Error adding product to fast-find bunk:", error_1);
+                res.status(500).send({ message: "Failed to add product to fast-find bunk" });
+                return [3 /*break*/, 6];
+            case 6: return [2 /*return*/];
+        }
+    });
+}); };
+exports.createProductLocation = createProductLocation;
+var getProductsByLocation = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var bunkLocationSku, products;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                bunkLocationSku = req.body.bunkLocationSku;
+                return [4 /*yield*/, app_data_source_1.myDataSource
+                        .getRepository(product_entity_1.Product)
+                        .createQueryBuilder("product")
+                        .innerJoin("product.productLocations", "productLocation")
+                        .innerJoin("productLocation.bunk", "bunk")
+                        .where("bunk.sku = :bunkLocationSku", { bunkLocationSku: bunkLocationSku })
+                        .getMany()];
+            case 1:
+                products = _a.sent();
+                res.send(products);
+                return [2 /*return*/];
+        }
+    });
+}); };
+exports.getProductsByLocation = getProductsByLocation;

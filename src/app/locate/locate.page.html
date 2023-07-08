@@ -25,9 +25,9 @@
     </ion-row>
     <ion-row class="w-full flex items-center bg-white">
       <div class="border-2 border-[#6d6d6d] w-full inline-flex items-center">
-        <ion-input #inquiryInput (ionChange)="getLocationByCode($event)" placeholder="Enter a location code" aria-label="Product Search"></ion-input>
+        <ion-input [(ngModel)]="inputValue" (keypress)="onKeyPress($event)" placeholder="Enter a location code" aria-label="Product Search"></ion-input>
         <ion-icon
-          (click)="getLocationByCode($event)"
+          (click)="addProductToBunk()"
           class="pr-4"
           aria-hidden="true"
           ios="search"

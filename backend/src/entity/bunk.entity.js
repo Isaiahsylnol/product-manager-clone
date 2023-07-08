@@ -11,13 +11,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Bunk = void 0;
 var typeorm_1 = require("typeorm");
+var product_entity_1 = require("./product.entity");
+var product_location_entity_1 = require("./product_location.entity");
 var Bunk = exports.Bunk = /** @class */ (function () {
     function Bunk() {
     }
     __decorate([
-        (0, typeorm_1.Column)({ primary: true }),
+        (0, typeorm_1.PrimaryColumn)(),
         __metadata("design:type", String)
-    ], Bunk.prototype, "bunk_sku", void 0);
+    ], Bunk.prototype, "sku", void 0);
+    __decorate([
+        (0, typeorm_1.ManyToMany)(function () { return product_entity_1.Product; }, function (product) { return product.productLocations; }),
+        __metadata("design:type", Array)
+    ], Bunk.prototype, "products", void 0);
+    __decorate([
+        (0, typeorm_1.OneToMany)(function () { return product_location_entity_1.ProductLocation; }, function (location) { return location.bunk; }, {
+            eager: true,
+        }),
+        __metadata("design:type", Array)
+    ], Bunk.prototype, "productLocations", void 0);
     Bunk = __decorate([
         (0, typeorm_1.Entity)()
     ], Bunk);

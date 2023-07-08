@@ -1,17 +1,24 @@
-import { Entity, Column, PrimaryColumn } from "typeorm"
+import { Column, JoinTable, Entity, OneToMany, PrimaryColumn } from "typeorm";
+import { ProductLocation } from "./product_location.entity";
 
 @Entity()
 export class Product {
-    
-    @PrimaryColumn()
-    sku: string
+  @PrimaryColumn()
+  sku: string
 
-    @Column()
-    name: string
-    
-    @Column('decimal', { precision: 7, scale: 2 })
-    price: any
+  @Column()
+  name: string
 
-    @Column()
-    thumbnail: string
+  @Column('decimal', { precision: 10, scale: 2 })
+  price: number
+
+  @Column()
+  thumbnail: string
+  
+  @Column()
+  description: string
+
+  @OneToMany(() => ProductLocation, (location) => location.product, { eager: true })
+  @JoinTable()
+  productLocations: ProductLocation[];
 }

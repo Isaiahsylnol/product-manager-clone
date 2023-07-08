@@ -1,13 +1,11 @@
-
-import { myDataSource } from "../../app-data-source";
-import { fastFindProduct, getProductBySku, getProducts } from "../controllers/product-controller";
-import { Product } from "../entity/product.entity";
+import { getProductBySku, getLocatedProduct, createProductLocation } from "../controllers/product-controller";
 
 const express = require('express');
 const router = express.Router();
 
-router.get("/products", getProducts);
-router.post("/products", getProductBySku);
-router.post("/fast-find", fastFindProduct);
+router.get("/product", getLocatedProduct);
+router.post("/product", getProductBySku);
+router.post("/fast-find", createProductLocation);
+
 
 module.exports = router;
