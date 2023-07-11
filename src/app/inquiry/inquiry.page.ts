@@ -5,7 +5,7 @@ import { ToastUtility } from '../utils/toast-utils';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 import axios from 'axios';
-import { environment } from 'src/enviroments/environment';
+import { environment } from 'src/environments/environment';
 
 interface Product {
   sku: string;

@@ -5,7 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ToastUtility } from '../utils/toast-utils';
 import axios from 'axios';
-import { environment } from 'src/enviroments/environment';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-locate',

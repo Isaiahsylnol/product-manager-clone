@@ -71,3 +71,5 @@ backend/app-data-source.js
 .gitignore
 app-data-source.js
 backend/app-data-source.ts
+src/environments/environment.ts
+src/environments/environment.prod.ts

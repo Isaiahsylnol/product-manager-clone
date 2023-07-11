@@ -1,5 +1,5 @@
-import { getProductsByLocation } from "../controllers/product-controller";
-import { getBunks, getBunkBySku } from "../controllers/location-controller";
+import { getProductsByLocation } from "../controllers/product.controller";
+import { getBunks, getBunkBySku } from "../controllers/location.controller";
 
 const express = require('express');
 const router = express.Router();

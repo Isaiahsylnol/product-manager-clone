@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getBunkBySku = exports.getCategoryById = exports.getBunks = void 0;
+exports.getBunkBySku = exports.getBunks = void 0;
 var app_data_source_1 = require("../../app-data-source");
 var bunk_entity_1 = require("../entity/bunk.entity");
 var getBunks = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
@@ -52,45 +52,33 @@ var getBunks = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
     });
 }); };
 exports.getBunks = getBunks;
-var getCategoryById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var prod;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, app_data_source_1.myDataSource
-                    .getRepository(bunk_entity_1.Bunk)
-                    .findOneBy({ sku: req.body.sku })];
-            case 1:
-                prod = _a.sent();
-                res.send(prod);
-                return [2 /*return*/];
-        }
-    });
-}); };
-exports.getCategoryById = getCategoryById;
 var getBunkBySku = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var prod;
+    var bunk, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, app_data_source_1.myDataSource
-                    .getRepository(bunk_entity_1.Bunk)
-                    .findOneBy({ sku: req.body.sku })];
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, app_data_source_1.myDataSource
+                        .getRepository(bunk_entity_1.Bunk)
+                        .findOneBy({ sku: req.body.sku })];
             case 1:
-                prod = _a.sent();
-                res.send(prod);
-                return [2 /*return*/];
+                bunk = _a.sent();
+                if (!bunk) {
+                    res.status(404).send({
+                        message: "Failed to find bunk: ".concat(bunk),
+                    });
+                }
+                res.status(200).send({ bunk: bunk });
+                return [3 /*break*/, 3];
+            case 2:
+                error_1 = _a.sent();
+                console.error('Failed to fetch bunk by sku.');
+                res.status(500).send({
+                    message: 'Error fetching bunk by sku.',
+                });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
         }
     });
 }); };
 exports.getBunkBySku = getBunkBySku;
-// export const getProductBySku = async (req, res) => {
-//   const { sku } = req.body;
-//   console.log(sku)
-//   const prod = await myDataSource
-//   .getRepository(Product)
-//   .createQueryBuilder("product")
-//   .leftJoinAndSelect("product.productLocations", "productLocation")
-//   .leftJoinAndSelect("productLocation.bunk", "bunk")
-//   .where("product.sku = :sku", { sku })
-//   .getOne();
-//   res.send(prod);
-// };

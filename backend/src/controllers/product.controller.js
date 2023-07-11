@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getProductsByLocation = exports.createProductLocation = exports.getLocatedProduct = exports.getProductBySku = exports.getCategoryById = exports.getProducts = void 0;
+exports.getProductsByLocation = exports.createProductLocation = exports.getLocatedProduct = exports.getProductBySku = exports.getProducts = void 0;
 var app_data_source_1 = require("../../app-data-source");
 var product_entity_1 = require("../entity/product.entity");
 var bunk_entity_1 = require("../entity/bunk.entity");
@@ -54,63 +54,70 @@ var getProducts = function (req, res) { return __awaiter(void 0, void 0, void 0,
     });
 }); };
 exports.getProducts = getProducts;
-var getCategoryById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var prod;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, app_data_source_1.myDataSource
-                    .getRepository(bunk_entity_1.Bunk)
-                    .findOneBy({ sku: req.body.sku })];
-            case 1:
-                prod = _a.sent();
-                res.send(prod);
-                return [2 /*return*/];
-        }
-    });
-}); };
-exports.getCategoryById = getCategoryById;
 var getProductBySku = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var sku, prod;
+    var sku, prod, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 sku = req.body.sku;
-                console.log(sku);
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
                 return [4 /*yield*/, app_data_source_1.myDataSource
                         .getRepository(product_entity_1.Product)
-                        .createQueryBuilder("product")
-                        .leftJoinAndSelect("product.productLocations", "productLocation")
-                        .leftJoinAndSelect("productLocation.bunk", "bunk")
-                        .where("product.sku = :sku", { sku: sku })
+                        .createQueryBuilder('product')
+                        .leftJoinAndSelect('product.productLocations', 'productLocation')
+                        .leftJoinAndSelect('productLocation.bunk', 'bunk')
+                        .where('product.sku = :sku', { sku: sku })
                         .getOne()];
-            case 1:
+            case 2:
                 prod = _a.sent();
-                res.send(prod);
-                return [2 /*return*/];
+                if (!prod) {
+                    res.status(404).send({ message: 'Product not found' });
+                }
+                res.status(200).send({ prod: prod });
+                return [3 /*break*/, 4];
+            case 3:
+                error_1 = _a.sent();
+                console.error('Error to fetch product by ID: ', error_1);
+                res.status(500).send({ message: 'Error fetching product by sku.' });
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); };
 exports.getProductBySku = getProductBySku;
 var getLocatedProduct = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var prod;
+    var prod, error_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, app_data_source_1.myDataSource
-                    .getRepository(product_location_entity_1.ProductLocation)
-                    .createQueryBuilder("productLocation")
-                    .leftJoinAndSelect("productLocation.product", "product")
-                    .leftJoinAndSelect("productLocation.bunk", "bunk")
-                    .getMany()];
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, app_data_source_1.myDataSource
+                        .getRepository(product_location_entity_1.ProductLocation)
+                        .createQueryBuilder('productLocation')
+                        .leftJoinAndSelect('productLocation.product', 'product')
+                        .leftJoinAndSelect('productLocation.bunk', 'bunk')
+                        .getMany()];
             case 1:
                 prod = _a.sent();
-                res.send(prod);
-                return [2 /*return*/];
+                if (!prod) {
+                    res.status(404).send({ message: 'Product not found' });
+                }
+                res.status(200).send({ prod: prod });
+                return [3 /*break*/, 3];
+            case 2:
+                error_2 = _a.sent();
+                console.error('Error to fetch all located products: ', error_2);
+                res.status(500).send({ message: 'Error fetching all located products.' });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
         }
     });
 }); };
 exports.getLocatedProduct = getLocatedProduct;
 var createProductLocation = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, prodSku, locSku, product, bunk, productLocation, error_1;
+    var _a, prodSku, locSku, product, bunk, productLocation, error_3;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -129,22 +136,24 @@ var createProductLocation = function (req, res) { return __awaiter(void 0, void 
             case 3:
                 bunk = _b.sent();
                 if (!product || !bunk) {
-                    return [2 /*return*/, res.status(404).send({ message: "Product or Bunk not found" })];
+                    return [2 /*return*/, res.status(404).send({ message: 'Product or Bunk not found' })];
                 }
                 productLocation = new product_location_entity_1.ProductLocation();
                 productLocation.product = product;
                 productLocation.bunk = bunk;
-                return [4 /*yield*/, app_data_source_1.myDataSource
-                        .getRepository(product_location_entity_1.ProductLocation)
-                        .save(productLocation)];
+                return [4 /*yield*/, app_data_source_1.myDataSource.getRepository(product_location_entity_1.ProductLocation).save(productLocation)];
             case 4:
                 _b.sent();
-                res.send({ message: "Product successfully added to fast-find bunk" });
+                res
+                    .status(200)
+                    .send({ message: 'Product successfully added to fast-find bunk' });
                 return [3 /*break*/, 6];
             case 5:
-                error_1 = _b.sent();
-                console.error("Error adding product to fast-find bunk:", error_1);
-                res.status(500).send({ message: "Failed to add product to fast-find bunk" });
+                error_3 = _b.sent();
+                console.error('Error adding product to fast-find bunk:', error_3);
+                res
+                    .status(500)
+                    .send({ message: 'Failed to add product to fast-find bunk' });
                 return [3 /*break*/, 6];
             case 6: return [2 /*return*/];
         }
@@ -152,22 +161,34 @@ var createProductLocation = function (req, res) { return __awaiter(void 0, void 
 }); };
 exports.createProductLocation = createProductLocation;
 var getProductsByLocation = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var bunkLocationSku, products;
+    var bunkLocationSku, products, error_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 bunkLocationSku = req.body.bunkLocationSku;
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
                 return [4 /*yield*/, app_data_source_1.myDataSource
                         .getRepository(product_entity_1.Product)
-                        .createQueryBuilder("product")
-                        .innerJoin("product.productLocations", "productLocation")
-                        .innerJoin("productLocation.bunk", "bunk")
-                        .where("bunk.sku = :bunkLocationSku", { bunkLocationSku: bunkLocationSku })
+                        .createQueryBuilder('product')
+                        .innerJoin('product.productLocations', 'productLocation')
+                        .innerJoin('productLocation.bunk', 'bunk')
+                        .where('bunk.sku = :bunkLocationSku', { bunkLocationSku: bunkLocationSku })
                         .getMany()];
-            case 1:
+            case 2:
                 products = _a.sent();
-                res.send(products);
-                return [2 /*return*/];
+                if (!products) {
+                    res.status(404).send({ message: 'Product not found' });
+                }
+                res.status(200).send({ products: products });
+                return [3 /*break*/, 4];
+            case 3:
+                error_4 = _a.sent();
+                console.error('Failed to fetch product by location: ', error_4);
+                res.status(500).send({ message: 'Failed to fetch product by location.' });
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); };

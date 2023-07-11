@@ -19,9 +19,11 @@ app.use(cors());
 
 const productRouter = require('./routes/productRouter');
 const locateRouter = require('./routes/locationRouter');
+const userRouter = require('./routes/userRouter');
 
-app.use("/api", productRouter);
 app.use("/api", locateRouter);
+app.use("/api", userRouter);
+app.use("/api", productRouter);
 
 // start express server
 app.listen(8080)

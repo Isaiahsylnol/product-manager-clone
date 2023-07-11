@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ToastUtility } from '../utils/toast-utils';
-import { environment } from '../../enviroments/environment';
+import { environment } from '../../environments/environment';
 import axios from 'axios';
 
 @Component({
