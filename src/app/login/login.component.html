@@ -11,12 +11,20 @@
     </ion-toolbar>
   </ion-header>
   
-  <ion-grid class="w-full text-black">
-    <ion-row class="w-full text-black flex mx-auto justify-center items-center pt-28 gap-11">
-       <div class="text-xl w-full flex justify-center">Logo</div>
-       <div class="border-2 border-[#6d6d6d] w-64 inline-flex items-center">
-        <ion-input placeholder="Search By Product Number, UPC or Description" aria-label="Product Search"></ion-input>
-       </div>
+  <ion-grid>
+    <ion-row>
+      <div class="text-xl w-full flex justify-center pt-36">Logo</div>
+    </ion-row>
+    <ion-row class="text-black pt-20 justify-center">
+      <ion-col class="ion-text-center">
+        <ion-input [(ngModel)]="inputValue" (keypress)="onKeyPress($event)" placeholder="PIN" aria-label="Login" class="border flex w-64 mx-auto justify-center"></ion-input>
+      </ion-col>
+    </ion-row>
+    <ion-row class="text-black justify-center">
+      <ion-col class="ion-text-center">
+        <button (click)="login()" class="flex w-64 mx-auto justify-center uppercase bg-green-500 text-white p-3">Log in</button>
+      </ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>
+ 

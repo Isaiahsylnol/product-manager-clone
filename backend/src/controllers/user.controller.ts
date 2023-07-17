@@ -39,11 +39,10 @@ export async function loginWithPin(req: express.Request, res: express.Response) 
   const { pin } = req.body;
   try {
     const user = await myDataSource.getRepository(User).findOne({ where: { pin } });
-    if (user) {
-      return res.status(200).send({ message: 'Successful login!' });
-    } else {
-      return res.status(400).send({ message: 'Invalid PIN. Login failed!' });
+    if (!user) {
+      return res.status(400).send({ message: 'Invalid credentials. Login failed!' });
     }
+    return res.status(200).send({ id: user.id, name: user.name });
   } catch (error) {
     return res.status(500).send({ message: 'Error occurred during login.' });
   }

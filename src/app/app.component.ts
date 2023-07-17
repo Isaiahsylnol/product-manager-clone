@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
+import { UserService } from './shared/user.service.service';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -9,7 +10,11 @@ import { IonicModule } from '@ionic/angular';
   standalone: true,
   imports: [IonicModule, RouterLink, RouterLinkActive, CommonModule],
 })
+
 export class AppComponent {
+userName: string = '';
+user: any = {};
+
   public appPages = [
     {
       title: 'Home',
@@ -55,5 +60,14 @@ export class AppComponent {
     },
   ];
 
-  constructor() {}
+  constructor(private userService: UserService) {
+    this.userService.getUser().subscribe(user => {
+      this.user = user;
+    });
+  }
+
+  checkUserLoggedIn() {
+    const userData = localStorage.getItem('userData');
+    return userData ? true : false
+  }
 }

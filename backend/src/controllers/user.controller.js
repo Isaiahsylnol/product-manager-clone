@@ -125,13 +125,10 @@ function loginWithPin(req, res) {
                     return [4 /*yield*/, app_data_source_1.myDataSource.getRepository(user_entity_1.User).findOne({ where: { pin: pin } })];
                 case 2:
                     user = _a.sent();
-                    if (user) {
-                        return [2 /*return*/, res.status(200).send({ message: 'Successful login!' })];
+                    if (!user) {
+                        return [2 /*return*/, res.status(400).send({ message: 'Invalid credentials. Login failed!' })];
                     }
-                    else {
-                        return [2 /*return*/, res.status(400).send({ message: 'Invalid PIN. Login failed!' })];
-                    }
-                    return [3 /*break*/, 4];
+                    return [2 /*return*/, res.status(200).send({ id: user.id, name: user.name })];
                 case 3:
                     error_3 = _a.sent();
                     return [2 /*return*/, res.status(500).send({ message: 'Error occurred during login.' })];
