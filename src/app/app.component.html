@@ -10,6 +10,10 @@
               <ion-label>{{ p.title }}</ion-label>
             </ion-item>
           </ion-menu-toggle>
+          <ion-item href="/login" (click)="logOut()">
+            <ion-icon aria-hidden="true" slot="start" ios="lock-closed" md="lock-closed-sharp"></ion-icon>
+            <ion-label>Log Out</ion-label>
+          </ion-item>
         </ion-list>
             <ion-segment value="Default">
               <ion-segment-button class="text-white" value="Default">EN</ion-segment-button>

@@ -51,19 +51,17 @@ user: any = {};
       md: 'file-tray-full-sharp',
       iosIcon: 'file-tray-full',
     },
-    {
-      title: 'Log Out',
-      url: '/folder/trash',
-      icon: 'lock-closed',
-      md: 'lock-closed-sharp',
-      iosIcon: 'lock-closed',
-    },
   ];
 
   constructor(private userService: UserService) {
     this.userService.getUser().subscribe(user => {
       this.user = user;
     });
+  }
+
+  logOut() {
+    localStorage.removeItem("userData");
+    this.userService.setUser(0,"");
   }
 
   checkUserLoggedIn() {
