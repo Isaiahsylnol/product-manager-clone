@@ -1,16 +1,4 @@
-<ion-header [translucent]="true">
-  <ion-toolbar color="primary">
-    <ion-title>Inquiry</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar color="primary">
-      <ion-title>Inquiry</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  
   <ion-grid>
     <ion-row>
       <div class="text-xl w-full flex justify-center pt-36">Logo</div>
@@ -24,6 +12,10 @@
       <ion-col class="ion-text-center">
         <button (click)="login()" class="flex w-64 mx-auto justify-center uppercase bg-green-500 text-white p-3">Log in</button>
       </ion-col>
+    </ion-row>
+    <ion-row class="flex flex-col justify-center items-center pt-3">
+      <span>Store Number: 000324</span>
+    <span>App Version: 5.3.200</span>
     </ion-row>
   </ion-grid>
 </ion-content>

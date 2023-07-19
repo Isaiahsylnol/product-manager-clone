@@ -46,5 +46,6 @@ export class MaintainLocationPage implements OnInit {
 
   ngOnInit() {
     this.data = history.state;
+    this.locationId = this.data.location;
   }
 }

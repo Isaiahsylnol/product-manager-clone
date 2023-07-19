@@ -31,24 +31,30 @@ export class LocatePage implements OnInit {
     }
   }
   async addProductToBunk() {
-    console.log(this.inputValue)
-
+    const inputValue = this.inputValue.trim();
+  
+    if (!inputValue) {
+      this.toastUtility.showToast('Please enter a valid Bunk SKU.', 'warning');
+      return;
+    }
+  
     try {
       const response = await axios.post(`${environment.apiUrl}/bunk`, {
-        sku: this.inputValue,
+        sku: inputValue,
       });
-      console.log(response.data)
-
+  
       if (response.data) {
+        const loc = await axios.post(`${environment.apiUrl}/locate`, {
+          bunkLocationSku: inputValue,
+        });
         const state = {
-          products: response.data,
-          location: this.inputValue,
+          products: loc.data,
+          location: inputValue,
         };
         this.router.navigate(['/maintain-location'], { state });
-      } else {
-        this.toastUtility.showToast('Invalid Location Code', 'warning');
       }
     } catch (error) {
+      this.toastUtility.showToast('Invalid Bunk SKU', 'warning');
       console.log(error);
     }
   }

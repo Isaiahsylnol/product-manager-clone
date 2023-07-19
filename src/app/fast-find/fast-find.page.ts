@@ -56,6 +56,6 @@ export class FastFindPage implements OnInit {
   async ngOnInit() {
     this.data = history.state;
     this.locationId = this.data.location;
-    this.products = await this.getBunkProducts(this.locationId);
+    this.products = this.data.products.products
   }
 }

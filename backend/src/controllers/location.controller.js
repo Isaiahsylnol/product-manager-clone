@@ -53,30 +53,34 @@ var getBunks = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
 }); };
 exports.getBunks = getBunks;
 var getBunkBySku = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var bunk, error_1;
+    var sku, bunk, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
+                sku = req.body.sku;
+                if (!sku) {
+                    return [2 /*return*/, res.status(400).send({
+                            message: 'Please enter valid SKU.',
+                        })];
+                }
                 return [4 /*yield*/, app_data_source_1.myDataSource
                         .getRepository(bunk_entity_1.Bunk)
-                        .findOneBy({ sku: req.body.sku })];
+                        .findOne({ where: { sku: sku } })];
             case 1:
                 bunk = _a.sent();
                 if (!bunk) {
-                    res.status(404).send({
-                        message: "Failed to find bunk: ".concat(bunk),
-                    });
+                    return [2 /*return*/, res.status(404).send({
+                            message: "Failed to find bunk with SKU: ".concat(sku),
+                        })];
                 }
-                res.status(200).send({ bunk: bunk });
-                return [3 /*break*/, 3];
+                return [2 /*return*/, res.status(200).send({ data: bunk })];
             case 2:
                 error_1 = _a.sent();
-                console.error('Failed to fetch bunk by sku.');
-                res.status(500).send({
-                    message: 'Error fetching bunk by sku.',
-                });
-                return [3 /*break*/, 3];
+                console.error('Failed to fetch bunk by SKU.', error_1);
+                return [2 /*return*/, res.status(500).send({
+                        message: 'Error fetching bunk by SKU.',
+                    })];
             case 3: return [2 /*return*/];
         }
     });

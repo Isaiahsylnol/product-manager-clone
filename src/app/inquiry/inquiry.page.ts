@@ -54,7 +54,7 @@ export class InquiryPage implements OnInit {
         );
         this.locations = [...bunks];
       } else {
-        this.toastUtility.showToast('Invalid Sku Entered', 'warning');
+        this.toastUtility.showToast('Invalid SKU Entered', 'warning');
       }
     } catch (error) {
       console.error(error);

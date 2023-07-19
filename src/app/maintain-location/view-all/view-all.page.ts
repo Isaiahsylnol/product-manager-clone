@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { SupabaseService } from 'src/app/services/supabase.service';
 
 @Component({
   selector: 'app-view-all',
@@ -12,17 +11,25 @@ import { SupabaseService } from 'src/app/services/supabase.service';
   imports: [IonicModule, CommonModule, FormsModule]
 })
 export class ViewAllPage implements OnInit {
-  products: any;
+  showElement: boolean = false;
+  hideEle: boolean = true;
+  products: any = [];
   data: any;
   count: number = 0;
   locationId: string = '';
  
-  constructor(private dataService: SupabaseService,) { }
+  constructor() {}
 
   async ngOnInit() {
     const data = history.state;
-    this.locationId = data[0]['code'];
-    this.products = await this.dataService.getProductInLocation(this.locationId);
+
+    this.locationId = data.location
+    this.products = data.products.products
     this.count = this.products.length;
+
+    if(this.count){
+      this.hideEle = false;
+      this.showElement = true;
+    }
   }
 }

@@ -6,7 +6,6 @@ import axios from 'axios';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { UserService } from '../shared/user.service.service';
-import { ToastUtility } from '../utils/toast-utils';
 
 @Component({
   selector: 'app-login',
@@ -20,8 +19,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private userService: UserService,
-    private toastUtility: ToastUtility
+    private userService: UserService
   ) {}
 
   async login() {
@@ -40,7 +38,6 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/home']);
     } catch (error) {
       console.error('Login failed.');
-      this.toastUtility.showToast('Invalid credentials', 'warning');
     }
   }
 

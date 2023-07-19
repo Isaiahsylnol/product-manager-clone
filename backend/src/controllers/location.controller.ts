@@ -12,20 +12,29 @@ export const getBunkBySku = async (
   res: express.Response
 ) => {
   try {
-    const bunk = await myDataSource
-      .getRepository(Bunk)
-      .findOneBy({ sku: req.body.sku });
+    const { sku } = req.body;
 
-    if (!bunk) {
-      res.status(404).send({
-        message: `Failed to find bunk: ${bunk}`,
+    if (!sku) {
+      return res.status(400).send({
+        message: 'Please enter valid SKU.',
       });
     }
-    res.status(200).send({ bunk });
+
+    const bunk = await myDataSource
+      .getRepository(Bunk)
+      .findOne({ where: { sku } });
+
+    if (!bunk) {
+      return res.status(404).send({
+        message: `Failed to find bunk with SKU: ${sku}`,
+      });
+    }
+
+    return res.status(200).send({ data: bunk });
   } catch (error) {
-    console.error('Failed to fetch bunk by sku.');
-    res.status(500).send({
-      message: 'Error fetching bunk by sku.',
+    console.error('Failed to fetch bunk by SKU.', error);
+    return res.status(500).send({
+      message: 'Error fetching bunk by SKU.',
     });
   }
 };

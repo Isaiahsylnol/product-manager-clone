@@ -6,7 +6,7 @@
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
-    <ion-toolbar  color="primary">
+    <ion-toolbar color="primary">
       <ion-title slot="start">Location<ion-label class="uppercase"> {{locationId}}: </ion-label>Add To</ion-title>
     </ion-toolbar>
   </ion-header>
@@ -20,14 +20,11 @@
     md="search-sharp"
   ></ion-icon>
   </div>
-  <ul>
+  <ul *ngIf="products">
     <li *ngFor="let prod of products" class="bg-blue-100 p-2 border text-sm border-black">
       <div>
         <p>#{{ prod.sku }}</p>
         <p>{{ prod.name }}</p>
-      <p></p>
-      </div>
-      <div>
       </div>
     </li>
    </ul>

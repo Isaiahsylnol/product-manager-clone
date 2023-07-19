@@ -1,28 +1,32 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
-    <ion-title class="text-white">Location {{ this.locationId }}: View All</ion-title>
+    <ion-title class="text-white">Location <span class="uppercase">{{locationId}}</span>: View All</ion-title>
   </ion-toolbar>
 </ion-header>
- 
+
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar color="primary">
-      <ion-title>Location {{ this.locationId }}: View All</ion-title>
+      <ion-title class="text-white">Location <span class="uppercase">{{locationId}}</span>: View All</ion-title>
     </ion-toolbar>
   </ion-header>
-    <ion-row class="bg-slate-300 p-3">
-      <p>{{ count }} products(s)</p>
-    </ion-row>
-    <ion-row>
-      <ul class="w-full">
-        <li *ngFor="let prod of products" class="bg-blue-100 p-2 border text-sm border-black">
-          <div>
+
+  <ion-grid>
+    <ion-col *ngIf="hideEle" class="flex flex-col h-screen items-center mt-16">
+      <span>There are no products for this location.</span>
+    </ion-col>
+    <ion-row *ngIf="showElement">
+      <ion-row class="bg-slate-300 p-3 w-full">
+        <p>{{ count }} product(s)</p>
+      </ion-row>
+      <ion-row class="w-full">
+        <ul class="w-full">
+          <li *ngFor="let prod of products" class="bg-blue-100 p-2 text-sm border border-black">
             <p>#{{ prod.sku }}</p>
             <p>{{ prod.name }}</p>
-          </div>
-          <div>
-          </div>
-        </li>
-       </ul>
+          </li>
+        </ul>
+      </ion-row>
     </ion-row>
+  </ion-grid>
 </ion-content>
