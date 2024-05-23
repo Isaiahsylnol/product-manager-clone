@@ -33,13 +33,14 @@
   <div class="justify-center grid grid-cols-1 gap-4 p-2 bg-slate-300">
     <ion-row class="w-full flex items-center bg-white">
       <div class="border-2 border-[#6d6d6d] w-full inline-flex items-center">
-        <ion-input [(ngModel)]="inputValue" (keypress)="onKeyPress($event)" placeholder="Scan or enter SKU or UPC code" aria-label="Product Inquiry"></ion-input>
+        <ion-input [(ngModel)]="inputValue" (keypress)="onKeyPress($event)" placeholder="Scan or enter SKU or UPC code" aria-label="Product Inquiry" data-test="input-field-1"></ion-input>
         <ion-icon
         (click)="createPickList()"
           class="pr-4 text-black"
           aria-hidden="true"
           ios="search"
           md="search-sharp"
+          data-test="icon-button"
         ></ion-icon>
       </div>
     </ion-row>
@@ -50,7 +51,7 @@
                placeholder="LIST NAME" 
                [disabled]="true"
            >
-        <ion-input [(ngModel)]="inputListName" [placeholder]="val" [value]="inputListName" aria-label="List name" class="w-20 text-blue-500"></ion-input>
+        <ion-input [(ngModel)]="inputListName" [placeholder]="val" [value]="inputListName" aria-label="List name" class="w-20 text-blue-500" data-test="input-field-2"></ion-input>
       </div>
     </ion-row>
     <ion-col *ngIf="hideEle" class="flex flex-col items-center pt-10 bg-white">

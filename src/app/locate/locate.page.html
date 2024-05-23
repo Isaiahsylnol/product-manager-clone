@@ -3,7 +3,6 @@
     <ion-title class="text-white">Locate</ion-title>
   </ion-toolbar>
 </ion-header>
- 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar color="primary">
@@ -13,27 +12,37 @@
   <div class="justify-center grid grid-cols-1 gap-4 p-2 bg-slate-300">
     <ion-row class="w-full flex items-center bg-white">
       <div class="border-2 border-[#6d6d6d] w-full inline-flex items-center">
-        <ion-input placeholder="Search by product # or UPC" aria-label="Product Search"></ion-input>
+        <ion-input [(ngModel)]="inputSku" (keyup.enter)="getLocationsBySku()" inputmode="text"
+        pattern="[0-9\-]*"
+        (keypress)="validateInput($event)" 
+        [clearOnEdit]="true" placeholder="Search by product # or UPC" aria-label="Product Search"></ion-input>
         <ion-icon
+        (click)="getLocationsBySku()"
           class="pr-4 text-black"
           aria-hidden="true"
           ios="search"
           md="search-sharp"
         ></ion-icon>
       </div>
-        
     </ion-row>
     <ion-row class="w-full flex items-center bg-white">
-      <div class="border-2 border-[#6d6d6d] w-full inline-flex items-center">
-        <ion-input #inquiryInput (ionChange)="getLocationByCode($event)" placeholder="Enter a location code" aria-label="Product Search"></ion-input>
+      <div class="border-2 border-gray-600 w-full inline-flex items-center">
+        <ion-input 
+          #inquiryInput 
+          [(ngModel)]="inputLocation" 
+          [clearOnEdit]="true"
+          (keyup.enter)="getLocationProducts()" 
+          placeholder="Enter a location code" 
+          aria-label="Product Search">
+        </ion-input>
         <ion-icon
-          (click)="getLocationByCode($event)"
-          class="pr-4"
+          (click)="getLocationProducts()"
+          class="pr-4 cursor-pointer"
           aria-hidden="true"
           ios="search"
-          md="search-sharp"
-        />
-      </div>
+          md="search-sharp">
+        </ion-icon>
+      </div> 
     </ion-row>
   </div>
 </ion-content>

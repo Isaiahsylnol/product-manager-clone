@@ -10,9 +10,10 @@ interface Option {
 }
 
 interface Product {
-  name: string,
-  sku: string
+  name: string;
+  sku: string;
 }
+
 @Component({
   selector: 'app-maintain-location',
   templateUrl: './maintain-location.page.html',
@@ -23,8 +24,8 @@ interface Product {
 export class MaintainLocationPage implements OnInit {
   public options!: Array<Option>;
   locationId: string = '';
-  data: any;
-  products: Product  = { name: "", sku: ""} 
+  data: { code: string; 'product-sku': string } = { code: '', 'product-sku': '' };
+  products: Product = { name: '', sku: '' };
 
   constructor(private router: Router) {}
 
@@ -33,9 +34,10 @@ export class MaintainLocationPage implements OnInit {
   }
 
   ngOnInit() {
-    this.data = history.state;
-    this.products = this.data;
-    this.locationId = this.data['code'];
+    this.data = history.state as { code: string; 'product-sku': string };
+
+    this.locationId = this.data.code;
+
     this.options = [
       { title: 'Add to', url: '/fast-find' },
       { title: 'Bin cap', url: '/folder/outbox' },

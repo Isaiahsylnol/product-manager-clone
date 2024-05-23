@@ -1,17 +1,24 @@
 <ion-header [translucent]="true">
-  <ion-toolbar color="primary">
-    <ion-title class="text-white">Location {{ this.locationId }}: View All</ion-title>
-  </ion-toolbar>
+  <ion-toolbar color="primary" *ngIf="this.locationId; else null">
+      <ion-title>Location {{ this.locationId }}: View All</ion-title>
+    </ion-toolbar>
+    <ion-toolbar color="primary" *ngIf="this.productSku; else null">
+      <ion-title>All Locations: {{ this.productSku }} </ion-title>
+    </ion-toolbar>
 </ion-header>
  
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
-    <ion-toolbar color="primary">
+    <ion-toolbar color="primary" *ngIf="this.locationId; else null">
       <ion-title>Location {{ this.locationId }}: View All</ion-title>
+    </ion-toolbar>
+    <ion-toolbar color="primary" *ngIf="this.productSku; else null">
+      <ion-title>All Locations: {{ this.productSku }} </ion-title>
     </ion-toolbar>
   </ion-header>
     <ion-row class="bg-slate-300 p-3">
-      <p>{{ count }} products(s)</p>
+      <p *ngIf="this.locationId">{{ count }} products(s)</p>
+      <p *ngIf="this.productSku">{{ count }} locations(s)</p>
     </ion-row>
     <ion-row>
       <ul class="w-full">
@@ -19,6 +26,14 @@
           <div>
             <p>#{{ prod.sku }}</p>
             <p>{{ prod.name }}</p>
+          </div>
+          <div>
+          </div>
+        </li>
+        <li *ngFor="let loc of locations" class="bg-blue-100 p-2 border text-sm border-black">
+          <div>
+            <p>{{ loc }}</p>
+    
           </div>
           <div>
           </div>
