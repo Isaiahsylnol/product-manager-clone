@@ -1,32 +1,43 @@
 <ion-header [translucent]="true">
-  <ion-toolbar color="primary">
-    <ion-title class="text-white">Location <span class="uppercase">{{locationId}}</span>: View All</ion-title>
-  </ion-toolbar>
+  <ion-toolbar color="primary" *ngIf="this.locationId; else null">
+      <ion-title>Location {{ this.locationId }}: View All</ion-title>
+    </ion-toolbar>
+    <ion-toolbar color="primary" *ngIf="this.productSku; else null">
+      <ion-title>All Locations: {{ this.productSku }} </ion-title>
+    </ion-toolbar>
 </ion-header>
-
+ 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
-    <ion-toolbar color="primary">
-      <ion-title class="text-white">Location <span class="uppercase">{{locationId}}</span>: View All</ion-title>
+    <ion-toolbar color="primary" *ngIf="this.locationId; else null">
+      <ion-title>Location {{ this.locationId }}: View All</ion-title>
+    </ion-toolbar>
+    <ion-toolbar color="primary" *ngIf="this.productSku; else null">
+      <ion-title>All Locations: {{ this.productSku }} </ion-title>
     </ion-toolbar>
   </ion-header>
-
-  <ion-grid>
-    <ion-col *ngIf="hideEle" class="flex flex-col h-screen items-center mt-16">
-      <span>There are no products for this location.</span>
-    </ion-col>
-    <ion-row *ngIf="showElement">
-      <ion-row class="bg-slate-300 p-3 w-full">
-        <p>{{ count }} product(s)</p>
-      </ion-row>
-      <ion-row class="w-full">
-        <ul class="w-full">
-          <li *ngFor="let prod of products" class="bg-blue-100 p-2 text-sm border border-black">
+    <ion-row class="bg-slate-300 p-3">
+      <p *ngIf="this.locationId">{{ count }} products(s)</p>
+      <p *ngIf="this.productSku">{{ count }} locations(s)</p>
+    </ion-row>
+    <ion-row>
+      <ul class="w-full">
+        <li *ngFor="let prod of products" class="bg-blue-100 p-2 border text-sm border-black">
+          <div>
             <p>#{{ prod.sku }}</p>
             <p>{{ prod.name }}</p>
-          </li>
-        </ul>
-      </ion-row>
+          </div>
+          <div>
+          </div>
+        </li>
+        <li *ngFor="let loc of locations" class="bg-blue-100 p-2 border text-sm border-black">
+          <div>
+            <p>{{ loc }}</p>
+    
+          </div>
+          <div>
+          </div>
+        </li>
+       </ul>
     </ion-row>
-  </ion-grid>
 </ion-content>

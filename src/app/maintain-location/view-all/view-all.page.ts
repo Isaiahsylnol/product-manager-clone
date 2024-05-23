@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { SupabaseService } from 'src/app/services/supabase.service';
 
 @Component({
   selector: 'app-view-all',
@@ -11,25 +12,35 @@ import { IonicModule } from '@ionic/angular';
   imports: [IonicModule, CommonModule, FormsModule]
 })
 export class ViewAllPage implements OnInit {
-  showElement: boolean = false;
-  hideEle: boolean = true;
-  products: any = [];
+  products: any;
   data: any;
   count: number = 0;
   locationId: string = '';
+  productSku: string = '';
+  locations: String[] = [];
  
-  constructor() {}
+  constructor(private dataService: SupabaseService,) { }
 
   async ngOnInit() {
     const data = history.state;
+    // console.log(data)
+    this.locationId = data['code'];
+    this.locations = data['locations'];
+    this.productSku = data['product-sku'];
 
-    this.locationId = data.location
-    this.products = data.products.products
-    this.count = this.products.length;
-
-    if(this.count){
-      this.hideEle = false;
-      this.showElement = true;
+    // Check if locationId exists and is truthy
+    if (this.locationId) {
+        this.products = await this.dataService.getProductInLocation(this.locationId);
+        this.count = this.products.length;
+      } 
+    // Check if productSku exists and is truthy
+    else if (this.productSku) {
+        this.count = this.locations.length;
+    } 
+    // If neither locationId nor productSku exist
+    else {
+        console.log("NO DATA");
     }
-  }
+}
+
 }

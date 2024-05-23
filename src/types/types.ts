@@ -1,4 +1,8 @@
-    export interface ProductLocation {
+export interface User {
+  id: number;
+  name: string;
+}
+export interface ProductLocation {
     location_id: string;
   }
   

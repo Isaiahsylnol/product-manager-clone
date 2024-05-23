@@ -1,0 +1,11 @@
+<ion-content [fullscreen]="true">
+  <div class="flex flex-col justify-center items-center w-full h-screen">
+    <h2>Login page</h2>
+    <div class="w-10/12 flex flex-col justify-center items-center">
+      <ion-input [(ngModel)]="input" (keypress)="onKeyPress($event)" class="mx-auto border-2 border-[#9F9F9F] w-3/6 mb-4" placeholder="PIN" aria-label="Product Inquiry" data-test="input-field-1"></ion-input>
+      <button (click)="loginUser()" class="mx-auto w-3/6 uppercase text-white bg-green-600 p-4 mb-3">Log in</button>
+    <span>Store Number: 000324</span>
+    <span>App Version: 5.3.200</span>
+    </div>
+  </div>
+</ion-content>

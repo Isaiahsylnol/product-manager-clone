@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { environment } from '../../environments/environment';
-import { Product, ProductInLocation, ProductLocation } from 'src/types/types';
-
+import { enviroment } from '../../enviroments/enviroment';
+import { User, Product, ProductInLocation, ProductLocation } from 'src/types/types';
+interface LocationData {
+  code: string;
+  // Add other properties if needed
+}
 @Injectable({
   providedIn: 'root',
 })
@@ -10,23 +13,42 @@ export class SupabaseService {
   private supabase: SupabaseClient;
   constructor() {
     this.supabase = createClient(
-      environment.supabaseUrl,
-      environment.supabaseKey
+      enviroment.supabaseUrl,
+      enviroment.supabaseKey
     );
   }
 
-  async getLocationByCode(location_code: string) {
+  async loginUser(pin: number): Promise<User | null> {
     const { data, error } = await this.supabase
-      .from('Locations')
-      .select('code')
-      .eq('code', location_code);
-
-    if (error) {
-      console.error(error);
-      return null;
-    }
-    return data;
+    .from('users')
+    .select('name, id')
+    .eq('pin', pin)
+    .single();
+  if (error) {
+    console.error(error);
+    return null;
   }
+  return data;
+}
+
+async getLocationByCode(location_code: string): Promise<LocationData | null> {
+  const { data, error } = await this.supabase
+    .from('Locations')
+    .select('code')
+    .eq('code', location_code);
+
+  if (error) {
+    console.error(error);
+    return null;
+  }
+
+  if (data && data.length > 0) {
+    const [{ code }] = data;
+    return code;
+  } else {
+    return null;
+  }
+}
 
   async getProductBySku(sku: string): Promise<Product | null>  {
     const { data, error } = await this.supabase
@@ -55,7 +77,7 @@ export class SupabaseService {
       return data;
   }
 
-   async createPickList(name: string, sku: string): Promise<void>{
+   async createPickList(name: string, sku: string): Promise<boolean>{
       const { error: insertError } = await this.supabase
         .from('pick_lists')
         .insert({
@@ -66,8 +88,9 @@ export class SupabaseService {
 
       if (insertError) {
         console.error('Error creating list: ', insertError);
-        //return false;
+        return false;
       }
+      return true;
   }
 
   async getPickList(name: string): Promise<any[] | null> {

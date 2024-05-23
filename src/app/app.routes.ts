@@ -8,10 +8,6 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'login',
-    loadComponent: () => import('./login/login.component').then( m => m.LoginComponent)
-  },
-  {
     path: 'inquiry',
     canActivate: [AuthGuard],
     loadComponent: () => import('./inquiry/inquiry.page').then( m => m.InquiryPage)
@@ -25,7 +21,6 @@ export const routes: Routes = [
     path: 'fill',
     canActivate: [AuthGuard],
     loadComponent: () => import('./fill/fill.page').then( m => m.FillPage)
-
   },
   {
     path: 'fill/create-list',
@@ -73,23 +68,7 @@ export const routes: Routes = [
     loadComponent: () => import('./maintain-location/view-all/view-all.page').then( m => m.ViewAllPage)
   },
   {
-    path: 'home/inquiry',
-    canActivate: [AuthGuard],
-    loadComponent: () => import('./inquiry/inquiry.page').then( m => m.InquiryPage)
-  },
-  {
-    path: 'home/locate',
-    canActivate: [AuthGuard],
-    loadComponent: () => import('./locate/locate.page').then( m => m.LocatePage)
-  },
-  {
-    path: 'home/sign-it',
-    canActivate: [AuthGuard],
-    loadComponent: () => import('./sign-it/sign-it.page').then( m => m.SignItPage)
-  },
-  {
-    path: 'home/fill',
-    canActivate: [AuthGuard],
-    loadComponent: () => import('./fill/fill.page').then( m => m.FillPage)
+    path: 'login',
+    loadComponent: () => import('./login/login.page').then( m => m.LoginPage)
   },
 ];
