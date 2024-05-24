@@ -6,25 +6,28 @@
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
-    <ion-toolbar color="primary">
+    <ion-toolbar  color="primary">
       <ion-title slot="start">Location<ion-label class="uppercase"> {{locationId}}: </ion-label>Add To</ion-title>
     </ion-toolbar>
   </ion-header>
   <div class="border-2 border-[#6d6d6d] w-full inline-flex items-center">
-    <ion-input #inquiryInput placeholder="Add by product # or UPC" (keyup.enter)="addProductToLocation()" aria-label="Product UPCA Input"></ion-input>
+    <ion-input #inquiryInput placeholder="Search by product # or UPC" (ionChange)="addProductToLocation($event)" aria-label="Location Search"></ion-input>
     <ion-icon
-    (click)="addProductToLocation()"
+    (click)="addProductToLocation($event)"
     class="pr-4 text-black"
     aria-hidden="true"
     ios="search"
     md="search-sharp"
   ></ion-icon>
   </div>
-  <ul *ngIf="products">
+  <ul>
     <li *ngFor="let prod of products" class="bg-blue-100 p-2 border text-sm border-black">
       <div>
         <p>#{{ prod.sku }}</p>
         <p>{{ prod.name }}</p>
+      <p></p>
+      </div>
+      <div>
       </div>
     </li>
    </ul>

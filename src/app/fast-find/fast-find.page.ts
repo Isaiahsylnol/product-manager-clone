@@ -1,11 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { SupabaseService } from '../services/supabase.service';
 import { ToastUtility } from '../utils/toast-utils';
-import { environment } from '../../environments/environment';
-import axios from 'axios';
-
 @Component({
   selector: 'app-fast-find',
   templateUrl: './fast-find.page.html',
@@ -15,47 +13,42 @@ import axios from 'axios';
 })
 export class FastFindPage implements OnInit {
   products: any;
-  locationId = '';
+  locationId: string = '';
+  inputValue: string = '';
   data: any;
-  @ViewChild('inquiryInput', { static: false }) inquiryInput: any;
-  
-  constructor(private toastUtility: ToastUtility) {}
+  constructor(
+    private dataService: SupabaseService,
+    private toastUtility: ToastUtility,
+  ) {}
 
-  async addProductToLocation() {
-    try {
-      const response = await axios.post(`${environment.apiUrl}/fast-find`, {
-        locSku: this.locationId,
-        prodSku: this.inquiryInput.value,
-      });
-      if (response.data) {
-        this.toastUtility.showToast('Product added to location', 'success');
-      } else {
-        this.toastUtility.showToast('Failed to add product to location', 'warning');
-      }
-    } catch (error) {
-      console.error('Error adding product to location:', error);
-    }
-    this.inquiryInput.value = '';
+  showToast() {
+    this.toastUtility.showToast('Invalid Product Sku', 'warning');
   }
 
-  async getBunkProducts(id: string) {
-    try {
-      const response = await axios.post(`${environment.apiUrl}/locate`, {
-        bunkLocationSku: id,
-      });
-      if (response.data) {
-        return response.data;
-      } else {
-        console.log('Invalid Location Code');
-      }
-    } catch (error) {
-      console.error('Error fetching bunk products:', error);
+  getLocation(event: any) {
+    this.inputValue = event.detail.value;
+    this.dataService.getLocationByCode(this.inputValue);
+  }
+
+  async addProductToLocation(event: any) {
+    this.inputValue = event.detail.value;
+    const res = await this.dataService.getProductBySku(this.inputValue);
+
+    if (res) {
+      this.dataService.assignProductToLocation(
+        res.sku,
+        res.name,
+        this.locationId
+      );
+    } else {
+      console.warn('Invalid Product Sku');
+      this.showToast();
     }
   }
 
   async ngOnInit() {
-    this.data = history.state;
-    this.locationId = this.data.location;
-    this.products = this.data.products.products
+    const data = history.state;
+    this.locationId = data[0]['code'];
+    this.products = await this.dataService.getProductInLocation(this.locationId);
   }
 }

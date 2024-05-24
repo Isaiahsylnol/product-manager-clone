@@ -1,19 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ToastUtility } from '../utils/toast-utils';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ToastController } from '@ionic/angular';
+import { SupabaseService } from '../services/supabase.service';
 import { Router } from '@angular/router';
-import axios from 'axios';
-import { environment } from 'src/environments/environment';
 
-interface Product {
-  sku: string;
-  name: string;
-  price: number;
-  thumbnail: string;
-  description: string;
-}
 @Component({
   selector: 'app-inquiry',
   templateUrl: './inquiry.page.html',
@@ -24,41 +15,54 @@ interface Product {
 export class InquiryPage implements OnInit {
   showElement: boolean = false;
   hideEle: boolean = true;
+ 
+  name: string = '';
+  price: number = 0;
   locations: string[] = [];
   thumbnail: string = '../../assets/no-image-2.jpg';
   inputValue: string = '';
-  obj!: Product;
+  data: any | undefined;
+  sku: string | null = null;
 
-  constructor(private toastUtility: ToastUtility, private router: Router) {}
+  constructor(
+    private dataService: SupabaseService,
+    private toast: ToastController,
+    private router: Router
+  ) {}
 
-  viewProductDetails(): void {
-    const state = {
-      product: this.obj,
-      location: this.locations,
-    };
-    this.router.navigate(['/product-details'], { state });
+  async presentToast(): Promise<void> {
+    const toaster = await this.toast.create({
+      message: 'Invalid Sku Entered',
+      position: 'middle',
+      color: 'warning',
+      duration: 2000,
+    });
+    toaster.present();
   }
 
-  async getProductBySku() {
-    this.inputValue = this.inputValue.trim();
+  viewProductDetails(): void {
+    const { name, price, sku, locations, thumbnail } = this;
+    const data = { name, price, sku, thumbnail, location: locations };
+    this.router.navigate(['/product-details'], { state: data });
+  }
 
-    try {
-      const response = await axios.post(`${environment.apiUrl}/product`, {
-        sku: this.inputValue,
-      });
+  async getProductBySku(): Promise<void> {
+    const res = await this.dataService.getProductBySku(this.inputValue);
 
-      if (response.data) {
-        this.obj = response.data;
-        const bunks = response.data.productLocations.map(
-          (productLocation: { bunk: any }) => productLocation.bunk.sku
-        );
-        this.locations = [...bunks];
-      } else {
-        this.toastUtility.showToast('Invalid SKU Entered', 'warning');
-      }
-    } catch (error) {
-      console.error(error);
+    if (!res) {
+      this.inputValue = '';
+      this.presentToast();
+      return;
     }
+
+    this.data = await this.dataService.getProductLocations(res.sku);
+    this.locations = this.data.map(
+      (item: { location_id: any }) => item.location_id
+    );
+    this.sku = res.sku;
+    this.name = res.name;
+    this.price = res.price;
+    this.thumbnail = res.thumbnail;
     this.showElement = true;
     this.hideEle = false;
     this.inputValue = '';

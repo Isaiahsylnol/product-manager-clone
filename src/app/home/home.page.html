@@ -5,22 +5,34 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div class="flex items-center h-full">
-    <div class="grid grid-cols-2 mx-auto gap-4">
-      <div
-        *ngFor="let p of pages; let i = index"
-        [routerLink]="[p.url]"
-        routerLinkActive="selected"
-        class="bg-red-700 h-48 w-40 gap-y-3 flex flex-col items-center justify-center text-white rounded-lg"
+  <div class="flex items-center justify-center mx-auto h-full">
+    <div class="grid grid-cols-2 justify-center items-center mx-auto gap-4">
+      <a
+        href="inquiry"
+        class="bg-red-700 rounded-lg h-48 gap-y-3 flex flex-col items-center mx-auto justify-center w-40 text-white"
       >
-        <ion-icon
-          aria-hidden="true"
-          [ios]="p.icon + '-outline'"
-          [md]="p.icon + '-sharp'"
-          size="large"
-        ></ion-icon>
-        {{p.title}}
-      </div>
+      <ion-icon aria-hidden="true" slot="start" ios="search" md="search-sharp" size="large"></ion-icon>
+        Product Search
+      </a>
+      <a
+        href="locate"
+        class="bg-red-700 rounded-lg h-48 gap-y-3 flex flex-col items-center mx-auto justify-center w-40 text-white"
+      >
+      <ion-icon aria-hidden="true" slot="start" ios="location" md="location-sharp" size="large"></ion-icon>
+        Locate It
+      </a>
+      <a
+        href="sign-it"
+        class="bg-red-700 rounded-lg h-48 gap-y-3 flex flex-col items-center mx-auto justify-center w-40 text-white"
+      >
+        <ion-icon aria-hidden="true" slot="start" ios="pricetag" md="pricetag-sharp" size="large"></ion-icon>
+        Sign It
+      </a>
+      <a
+      href="fill" class="bg-red-700 rounded-lg h-48 gap-y-3 flex flex-col items-center mx-auto justify-center w-40 text-white">
+        <ion-icon aria-hidden="true" slot="start" ios="file-tray-full" md="file-tray-full-sharp" size="large"></ion-icon>
+        Fill It
+      </a>
     </div>
   </div>
 </ion-content>
