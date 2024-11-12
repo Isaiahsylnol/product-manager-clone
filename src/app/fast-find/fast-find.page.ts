@@ -11,6 +11,7 @@ import { ToastUtility } from '../utils/toast-utils';
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule],
 })
+
 export class FastFindPage implements OnInit {
   products: any;
   locationId: string = '';
@@ -21,10 +22,6 @@ export class FastFindPage implements OnInit {
     private toastUtility: ToastUtility,
   ) {}
 
-  showToast() {
-    this.toastUtility.showToast('Invalid Product Sku', 'warning');
-  }
-
   getLocation(event: any) {
     this.inputValue = event.detail.value;
     this.dataService.getLocationByCode(this.inputValue);
@@ -32,23 +29,24 @@ export class FastFindPage implements OnInit {
 
   async addProductToLocation(event: any) {
     this.inputValue = event.detail.value;
-    const res = await this.dataService.getProductBySku(this.inputValue);
-
-    if (res) {
-      this.dataService.assignProductToLocation(
-        res.sku,
-        res.name,
-        this.locationId
+    if (this.inputValue) {
+     let res =  await this.dataService.assignProductToLocation(
+        {"sku": this.inputValue, "location_id": this.locationId}
       );
+     if(res){
+     } else {
+      this.toastUtility.showToast(res.message, 'warning');
+     }
+    this.toastUtility.showToast("Product inserted into location", 'success');
     } else {
       console.warn('Invalid Product Sku');
-      this.showToast();
+      this.toastUtility.showToast('Invalid Product Sku', 'warning');
     }
   }
 
   async ngOnInit() {
     const data = history.state;
-    this.locationId = data[0]['code'];
+    this.locationId = data['code'];
     this.products = await this.dataService.getProductInLocation(this.locationId);
   }
 }

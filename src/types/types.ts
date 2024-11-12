@@ -5,6 +5,14 @@ export interface User {
 export interface ProductLocation {
     location_id: string;
   }
+
+  export interface ProductData {
+    sku: string;
+  }
+
+ export interface LocationData {
+    location_id: string;
+  }
   
   export interface Product {
     sku: string;
@@ -20,5 +28,5 @@ export interface ProductLocation {
   export interface ApiResponse<T> {
     success: boolean;
     message: string;
-    data: T;
+    data: T | null;
   }

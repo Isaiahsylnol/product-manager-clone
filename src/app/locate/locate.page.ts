@@ -5,17 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { SupabaseService } from '../services/supabase.service';
 import { ToastUtility } from '../utils/toast-utils';
-
-// Interface for Location Data
-interface LocationData {
-  code: string;
-}
-
-// Interface for Product Data
-interface ProductData {
-  sku: string;
-  // Add other product-related fields if needed
-}
+import { LocationData, ProductData } from 'src/types/types';
 
 @Component({
   selector: 'app-locate',
@@ -51,7 +41,6 @@ export class LocatePage implements OnInit {
           state: { code: data },
         });
       } else {
-        // Show a warning toast if the location code is invalid
         console.warn('Invalid Location Code');
         this.toastUtility.showToast('Invalid Location Code', 'warning');
       }
@@ -59,7 +48,6 @@ export class LocatePage implements OnInit {
       console.error('Error fetching location:', error);
       this.toastUtility.showToast('Error fetching location', 'warning');
     } finally {
-      // Clear the input field after the operation
       this.inputLocation = '';
     }
   }
@@ -79,7 +67,6 @@ export class LocatePage implements OnInit {
   // Method to fetch product's locations by SKU
   async getLocationsBySku(): Promise<void> {
     try {
-      // Fetch product data using the provided SKU
       const res: ProductData | null = await this.dataService.getProductBySku(this.inputSku);
       
       if (!res) {
@@ -99,7 +86,6 @@ export class LocatePage implements OnInit {
       console.error('Error fetching product by SKU:', error);
       this.toastUtility.showToast('Error fetching product by SKU', 'warning');
     } finally {
-      // Clear the input field after the operation
       this.inputSku = '';
     }
   }

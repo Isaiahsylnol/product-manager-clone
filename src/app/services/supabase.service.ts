@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { enviroment } from '../../enviroments/enviroment';
-import { User, Product, ProductInLocation, ProductLocation } from 'src/types/types';
-interface LocationData {
-  code: string;
-  // Add other properties if needed
+import { User, Product, ProductInLocation, ProductLocation, LocationData, ApiResponse } from 'src/types/types';
+import { catchError, from, map, Observable, of } from 'rxjs';
+interface Inquiry {
+  sku: string;
+  loc: string;
 }
 @Injectable({
   providedIn: 'root',
 })
+
 export class SupabaseService {
   private supabase: SupabaseClient;
   constructor() {
@@ -20,7 +22,7 @@ export class SupabaseService {
 
   async loginUser(pin: number): Promise<User | null> {
     const { data, error } = await this.supabase
-    .from('users')
+    .from('Users')
     .select('name, id')
     .eq('pin', pin)
     .single();
@@ -34,8 +36,8 @@ export class SupabaseService {
 async getLocationByCode(location_code: string): Promise<LocationData | null> {
   const { data, error } = await this.supabase
     .from('Locations')
-    .select('code')
-    .eq('code', location_code);
+    .select('location_id')
+    .eq('location_id', location_code);
 
   if (error) {
     console.error(error);
@@ -43,8 +45,8 @@ async getLocationByCode(location_code: string): Promise<LocationData | null> {
   }
 
   if (data && data.length > 0) {
-    const [{ code }] = data;
-    return code;
+    const [{ location_id }] = data;
+    return location_id;
   } else {
     return null;
   }
@@ -66,7 +68,7 @@ async getLocationByCode(location_code: string): Promise<LocationData | null> {
 
   async getProductLocations(sku: string): Promise<ProductLocation[] | null> {
     const { data, error } = await this.supabase
-      .from('product_locations')
+      .from('Product_locations')
       .select('location_id')
       .eq('sku', sku);
 
@@ -106,55 +108,65 @@ async getLocationByCode(location_code: string): Promise<LocationData | null> {
     return data;
   }
 
-  async getProductInLocation(loc: string): Promise<ProductInLocation[] | null> {
-    const { data, error } = await this.supabase
-      .from('product_locations')
+  getProductInLocation(loc: string): Observable<ProductInLocation[] | null> {
+    return from(this.supabase
+      .from('Product_locations')
       .select('sku, name')
-      .eq('location_id', loc);
-
-    if (error) {
-      console.error(error);
-      return null;
-    }
-    return data;
+      .eq('location_id', loc)).pipe(
+        map(response => {
+          if (response.error) {
+            console.error(response.error);
+            return null;
+          }
+          console.log(response)
+          return response.data;
+        }),
+        catchError(error => {
+          console.error("Error fetching product data:", error);
+          return of(null);
+        })
+    );
   }
-  
-  async assignProductToLocation(
-    productSku: string,
-    prod_name: string,
-    location_code: string
-  ): Promise<boolean> {
-    // Check if a location already exists for this product
-    const { data: productLocation, error: productLocationError } =
-      await this.supabase
-        .from('product_locations')
-        .select('*')
-        .eq('sku', productSku)
-        .eq('location_id', location_code)
-        .single();
 
-    if (productLocation) {
-      console.error(
-        'Error product already exist in location: ',
-        productLocation
-      );
-      return false;
-    } else {
-      // If a record doesn't exist, create a new one
-      const { error: insertError } = await this.supabase
-        .from('product_locations')
-        .insert({
-          sku: productSku,
-          name: prod_name,
-          location_id: location_code,
-        });
+async assignProductToLocation({ sku, location_id }: { sku: string; location_id: string }): Promise<any> {
+  // Check if a location already exists for this product
+  let prod = await this.getProductBySku(sku)
+ 
+  const { data: productLocation, error: productLocationError } =
+    await this.supabase
+      .from('Product_locations')
+      .select('*')
+      .eq('sku', sku)
+      .eq('location_id', location_id)
+      .single();
 
-      if (insertError) {
-        console.error('Error inserting product into location: ', insertError);
-        return false;
-      }
+  if (productLocation) {
+    console.error(
+      'Error product already exist in location: ',
+      productLocation
+    );
+    return {success: false,
+      message: "Error product already exist in location",
+      data: null};
+  } 
+  else {
+    // If a record doesn't exist, create a new one
+    const { error: insertError } = await this.supabase
+      .from('Product_locations')
+      .insert({
+        sku,
+        name: prod?.name,
+        location_id: location_id,
+      });
+
+    if (insertError) {
+      console.error('Error inserting product into location: ', insertError);
+      return {success: false,
+        message: "Error inserting product into location",
+        data: null};
     }
-
-    return true;
   }
-}
+  return {success: true,
+    message: "Successfully inserted product into location",
+    data: null};
+}}
