@@ -17,4 +17,4 @@ connect()
   });
 
 app.use("/", productRoutes.router);
-app.listen(port, () => console.log(`Dolphin app listening on port ${port}!`));
+app.listen(port, () => console.log(`Server listening on port ${port}!`));
