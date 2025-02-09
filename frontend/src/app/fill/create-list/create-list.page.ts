@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { SupabaseService } from 'src/app/services/supabase.service';
+//import { SupabaseService } from 'src/app/services/supabase.service';
 import { ToastUtility } from '../../utils/toast-utils';
 @Component({
   selector: 'app-create-list',
@@ -20,7 +20,7 @@ export class CreateListPage implements OnInit {
   val: string = "JOHN"
 
   constructor(
-    private dataService: SupabaseService,
+    //private dataService: SupabaseService,
     private toastUtility: ToastUtility,
   ) {}
 
@@ -39,10 +39,10 @@ export class CreateListPage implements OnInit {
       return;
     }
 
-     this.res = await this.dataService.getProductBySku(this.inputValue);
+ //    this.res = await this.dataService.getProductBySku(this.inputValue);
     if (this.inputValue) this.products.push(this.res);
  
-   this.dataService.createPickList(this.inputListName, this.res.sku);
+   //this.dataService.createPickList(this.inputListName, this.res.sku);
     this.inputValue = '';
     this.hideEle = false;
   }

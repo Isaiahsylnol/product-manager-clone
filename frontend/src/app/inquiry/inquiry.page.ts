@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, ToastController } from '@ionic/angular';
-import { SupabaseService } from '../services/supabase.service';
+//import { SupabaseService } from '../services/supabase.service';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { Product } from 'src/types/types';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-inquiry',
@@ -19,13 +22,13 @@ export class InquiryPage implements OnInit {
   name: string = '';
   price: number = 0;
   locations: string[] = [];
-  thumbnail: string = '../../assets/no-image-2.jpg';
+  thumbnail: string = '';
   inputValue: string = '';
   data: any | undefined;
   sku: string | null = null;
 
   constructor(
-    private dataService: SupabaseService,
+    private http: HttpClient,
     private toast: ToastController,
     private router: Router
   ) {}
@@ -47,22 +50,21 @@ export class InquiryPage implements OnInit {
   }
 
   async getProductBySku(): Promise<void> {
-    const res = await this.dataService.getProductBySku(this.inputValue);
+    const res = await this.http.get<Product>(`${environment.apiUrl}/products/product-search/${this.inputValue}`).toPromise();
 
     if (!res) {
       this.inputValue = '';
       this.presentToast();
       return;
     }
-
-    this.data = await this.dataService.getProductLocations(res.sku);
-    this.locations = this.data.map(
-      (item: { location_id: any }) => item.location_id
-    );
+    // this.data = await this.dataService.getProductLocations(res.sku);
+    // this.locations = this.data.map(
+    //   (item: { location_id: any }) => item.location_id
+    // );
     this.sku = res.sku;
     this.name = res.name;
     this.price = res.price;
-    this.thumbnail = res.thumbnail;
+    this.thumbnail = res?.thumbnail || '../../assets/no-image-2.jpg';
     this.showElement = true;
     this.hideEle = false;
     this.inputValue = '';

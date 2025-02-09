@@ -1,6 +1,8 @@
 const ProductRepository = require("../repositories/product.repository");
+const ProductLocationRepository = require("../repositories/product_locations.repository");
 
 const productRepository = new ProductRepository();
+const productLocationRepository = new ProductLocationRepository();
 
 async function getAllProducts(req, res) {
   try {
@@ -19,7 +21,12 @@ async function getProductBySku(req, res) {
 
   try {
     const result = await productRepository.findBySku(sku);
-    res.status(200).json(result);
+
+    if (!result || result.length === 0) {
+      return res.status(404).json({ error: "Product not found." });
+    }
+
+    res.status(200).json(result[0]);
   } catch (err) {
     console.error("Error fetching product by SKU:", err);
     res
@@ -28,4 +35,23 @@ async function getProductBySku(req, res) {
   }
 }
 
-module.exports = { getAllProducts, getProductBySku };
+async function getProductLocations(req, res) {
+  const { sku } = req.params;
+
+  try {
+    const result = await productLocationRepository.getProductLocations(sku);
+
+    if (!result || result.length === 0) {
+      return res.status(404).json({ error: "Product locations not found." });
+    }
+
+    res.status(200).json(result[0]);
+  } catch (err) {
+    console.error("Error fetching product's locations by SKU: ", err);
+    res.status(500).json({
+      error: "An error occurred while fetching the product's loations.",
+    });
+  }
+}
+
+module.exports = { getAllProducts, getProductBySku, getProductLocations };

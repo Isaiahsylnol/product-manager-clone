@@ -1,10 +1,10 @@
 const sql = require("mssql");
 
 const config = {
-  server: "localhost",
-  database: "ProductManagerClone",
-  user: "admin",
-  password: "admin",
+  server: process.env.HOST,
+  database: process.env.DATABASE,
+  user: process.env.USER,
+  password: process.env.PASSWORD,
 
   options: {
     trustedConnection: true,
@@ -13,7 +13,16 @@ const config = {
   },
 };
 
-// Normal queries to db handled here
+// Utility function for logging errors consistently
+function logError(error, query, values, paramNames) {
+  console.error("Database operation failed.");
+  console.error("Query:", query);
+  console.error("Values:", values);
+  console.error("Parameter Names:", paramNames);
+  console.error("Error:", error.message);
+}
+
+// Normal queries to the database
 async function executeQuery(
   query,
   values = [],
@@ -25,36 +34,33 @@ async function executeQuery(
     const pool = await sql.connect(config);
     const request = pool.request();
 
-    if (values && paramNames) {
-      for (let i = 0; i < values.length; i++) {
-        request.input(paramNames[i], values[i]);
-      }
+    // Bind input parameters
+    if (values.length !== paramNames.length) {
+      throw new Error("Mismatch between values and parameter names.");
     }
+
+    values.forEach((value, index) => {
+      if (value === undefined) {
+        console.warn(
+          `Warning: Undefined value for parameter '${paramNames[index]}'`
+        );
+      }
+      request.input(paramNames[index], value);
+    });
 
     // Handle output parameter
     if (outputParamName) {
       request.output(outputParamName, sql.Int);
     }
 
-    // console.log("VALUES ", values);
-    // console.log("PARAM ", paramNames);
-    // console.log("QUERY " , query);
-    // console.log("REQUEST ", request.parameters);
-    values.forEach((val, index) => {
-      if (typeof val === "undefined") {
-        console.error(`Undefined value found for ${paramNames[index]}`);
-      }
-    });
+    // Execute query or stored procedure
+    const result = isStoredProcedure
+      ? await request.execute(query)
+      : await request.query(query);
 
-    let result;
-    if (isStoredProcedure) {
-      result = await request.execute(query);
-    } else {
-      result = await request.batch(query);
-    }
-
+    // Include output parameter if specified
     if (outputParamName) {
-      result = {
+      return {
         ...result,
         [outputParamName]: request.parameters[outputParamName].value,
       };
@@ -62,42 +68,45 @@ async function executeQuery(
 
     return result;
   } catch (error) {
-    console.log(error);
+    logError(error, query, values, paramNames);
     throw error;
   }
 }
 
-// Bulk queries handled here
+// Bulk queries with table-valued parameters
 async function executeTableValuedQuery(
   query,
   table,
-  paramNames = [],
+  paramName,
   isStoredProcedure = true,
   outputParamName = null
 ) {
   try {
+    if (!(table instanceof sql.Table)) {
+      throw new Error(
+        "Invalid table parameter. Expected an instance of sql.Table."
+      );
+    }
+
     const pool = await sql.connect(config);
     const request = pool.request();
 
-    // Setting the table-valued parameter
-    if (table instanceof sql.Table) {
-      request.input(paramNames, table);
-    }
+    // Bind table-valued parameter
+    request.input(paramName, table);
 
     // Handle output parameter
     if (outputParamName) {
       request.output(outputParamName, sql.Int);
     }
 
-    let result;
-    if (isStoredProcedure) {
-      result = await request.execute(query);
-    } else {
-      result = await request.batch(query);
-    }
+    // Execute query or stored procedure
+    const result = isStoredProcedure
+      ? await request.execute(query)
+      : await request.query(query);
 
+    // Include output parameter if specified
     if (outputParamName) {
-      result = {
+      return {
         ...result,
         [outputParamName]: request.parameters[outputParamName].value,
       };
@@ -105,7 +114,7 @@ async function executeTableValuedQuery(
 
     return result;
   } catch (error) {
-    console.log(error);
+    logError(error, query, [table], [paramName]);
     throw error;
   }
 }

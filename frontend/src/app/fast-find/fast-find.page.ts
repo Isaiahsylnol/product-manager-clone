@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { SupabaseService } from '../services/supabase.service';
+//import { SupabaseService } from '../services/supabase.service';
 import { ToastUtility } from '../utils/toast-utils';
 @Component({
   selector: 'app-fast-find',
@@ -18,25 +18,25 @@ export class FastFindPage implements OnInit {
   inputValue: string = '';
   data: any;
   constructor(
-    private dataService: SupabaseService,
+    //private dataService: SupabaseService,
     private toastUtility: ToastUtility,
   ) {}
 
   getLocation(event: any) {
     this.inputValue = event.detail.value;
-    this.dataService.getLocationByCode(this.inputValue);
+  //  this.dataService.getLocationByCode(this.inputValue);
   }
 
   async addProductToLocation(event: any) {
     this.inputValue = event.detail.value;
     if (this.inputValue) {
-     let res =  await this.dataService.assignProductToLocation(
-        {"sku": this.inputValue, "location_id": this.locationId}
-      );
-     if(res){
-     } else {
-      this.toastUtility.showToast(res.message, 'warning');
-     }
+    //  let res =  await this.dataService.assignProductToLocation(
+    //     {"sku": this.inputValue, "location_id": this.locationId}
+    //   );
+    //  if(res){
+    //  } else {
+    //   this.toastUtility.showToast(res.message, 'warning');
+    //  }
     this.toastUtility.showToast("Product inserted into location", 'success');
     } else {
       console.warn('Invalid Product Sku');
@@ -47,6 +47,6 @@ export class FastFindPage implements OnInit {
   async ngOnInit() {
     const data = history.state;
     this.locationId = data['code'];
-    this.products = await this.dataService.getProductInLocation(this.locationId);
+  //  this.products = await this.dataService.getProductInLocation(this.locationId);
   }
 }
