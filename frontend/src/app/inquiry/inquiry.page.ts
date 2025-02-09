@@ -57,10 +57,11 @@ export class InquiryPage implements OnInit {
       this.presentToast();
       return;
     }
-    // this.data = await this.dataService.getProductLocations(res.sku);
-    // this.locations = this.data.map(
-    //   (item: { location_id: any }) => item.location_id
-    // );
+    this.data = await this.http.get<any>(`${environment.apiUrl}/products/product-locations/${res.sku}`).toPromise();
+    
+    this.locations = this.data.map(
+      (item: { location_id: any }) => item.location_id
+    );
     this.sku = res.sku;
     this.name = res.name;
     this.price = res.price;

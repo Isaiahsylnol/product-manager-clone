@@ -45,7 +45,7 @@ async function getProductLocations(req, res) {
       return res.status(404).json({ error: "Product locations not found." });
     }
 
-    res.status(200).json(result[0]);
+    res.status(200).json(result);
   } catch (err) {
     console.error("Error fetching product's locations by SKU: ", err);
     res.status(500).json({
