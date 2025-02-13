@@ -29,6 +29,7 @@ async function getLocationByBunk(req, res) {
       .json({ error: "An error occurred while fetching the location." });
   }
 }
+
 async function getProductLocations(req, res) {
   const { sku } = req.params;
 
@@ -48,4 +49,32 @@ async function getProductLocations(req, res) {
   }
 }
 
-module.exports = { getAllLocations, getLocationByBunk, getProductLocations };
+async function getLocationsProducts(req, res) {
+  const { location_code } = req.params;
+  console.log(location_code);
+  try {
+    const result = await productLocationRepository.getLocationsProducts(
+      location_code
+    );
+
+    if (!result || result.length === 0) {
+      return res
+        .status(404)
+        .json({ error: "Location's product(s) not found." });
+    }
+
+    res.status(200).json(result);
+  } catch (err) {
+    console.error("Error fetching location's product(s): ", err);
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching the locations." });
+  }
+}
+
+module.exports = {
+  getAllLocations,
+  getLocationByBunk,
+  getProductLocations,
+  getLocationsProducts,
+};
