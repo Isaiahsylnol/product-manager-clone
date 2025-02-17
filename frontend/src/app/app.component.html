@@ -1,6 +1,7 @@
 <ion-app>
   <ion-split-pane contentId="main-content">
-    <ion-menu contentId="main-content" type="overlay" *ngIf="checkUserLoggedIn()">
+    <ion-menu contentId="main-content" type="overlay">
+      <!-- <ion-menu contentId="main-content" type="overlay" *ngIf="checkUserLoggedIn()"> -->
       <ion-content>
         <ion-list class="bg-[#292929]">
           <ion-list-header><ion-label class="text-lg flex justify-center mb-8 uppercase">{{user.name}}</ion-label></ion-list-header>
