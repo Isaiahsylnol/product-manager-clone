@@ -9,12 +9,12 @@ export const routes: Routes = [
   },
   {
     path: 'inquiry',
-    canActivate: [AuthGuard],
+    //canActivate: [AuthGuard],
     loadComponent: () => import('./inquiry/inquiry.page').then( m => m.InquiryPage)
   },
   {
     path: 'locate',
-    canActivate: [AuthGuard],
+    //canActivate: [AuthGuard],
     loadComponent: () => import('./locate/locate.page').then( m => m.LocatePage)
   },
   {
@@ -34,7 +34,7 @@ export const routes: Routes = [
   },
   {
     path: 'home',
-    canActivate: [AuthGuard],
+    //canActivate: [AuthGuard],
     loadComponent: () => import('./home/home.page').then( m => m.HomePage)
   },
   {
@@ -49,12 +49,12 @@ export const routes: Routes = [
   },
   {
     path: 'maintain-location',
-    canActivate: [AuthGuard],
+    //canActivate: [AuthGuard],
     loadComponent: () => import('./maintain-location/maintain-location.page').then( m => m.MaintainLocationPage)
   },
   {
     path: 'maintain-location/view-all',
-    canActivate: [AuthGuard],
+    //canActivate: [AuthGuard],
     loadComponent: () => import('./maintain-location/view-all/view-all.page').then( m => m.ViewAllPage)
   },
   {
@@ -64,7 +64,7 @@ export const routes: Routes = [
   },
   {
     path: 'view-all',
-    canActivate: [AuthGuard],
+    //canActivate: [AuthGuard],
     loadComponent: () => import('./maintain-location/view-all/view-all.page').then( m => m.ViewAllPage)
   },
   {

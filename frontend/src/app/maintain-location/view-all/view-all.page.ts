@@ -25,7 +25,9 @@ export class ViewAllPage implements OnInit {
     const data = history.state;
     this.locationId = data['code'];
     this.locations = data['locations'];
-    this.productSku = data['product-sku'];
+    this.productSku = data.data.product_sku;
+    this.products = data.data;
+    this.count = this.products.length;
 
     // if (this.locationId) {
     //   this.dataService.getProductInLocation(this.locationId).subscribe(

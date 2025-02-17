@@ -4,7 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ToastUtility } from '../utils/toast-utils';
-import { LocationData, ProductData } from 'src/types/types';
+import { ProductData } from 'src/types/types';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-locate',
@@ -16,40 +18,16 @@ import { LocationData, ProductData } from 'src/types/types';
 export class LocatePage implements OnInit {
   @ViewChild('inquiryInput', { static: false }) inquiryInput!: ElementRef;
 
-  // Variables for user inputs and fetched data
   inputLocation: string = '';
   inputSku: string = '';
 
   constructor(
     private router: Router,
-   // private dataService: SupabaseService,
+    private http: HttpClient,
     private toastUtility: ToastUtility,
   ) {}
 
   ngOnInit(): void {}
-
-  // Method to fetch location's products
-  async getLocationProducts(): Promise<void> {
-    try {
-      // Fetch location data using the provided location code
-    //  const data: LocationData | null = await this.dataService.getLocationByCode(this.inputLocation.toUpperCase());
-
-      // if (data) {
-      //   // Navigate to the maintain-location page with the fetched location code
-      //   this.router.navigate(['/maintain-location'], {
-      //     state: { code: data },
-      //   });
-      // } else {
-      //   console.warn('Invalid Location Code');
-      //   this.toastUtility.showToast('Invalid Location Code', 'warning');
-      // }
-    } catch (error) {
-      console.error('Error fetching location:', error);
-      this.toastUtility.showToast('Error fetching location', 'warning');
-    } finally {
-      this.inputLocation = '';
-    }
-  }
 
   // Method to validate the input to allow only numbers and hyphen
   validateInput(event: KeyboardEvent): boolean {
@@ -65,22 +43,19 @@ export class LocatePage implements OnInit {
 
   // Method to fetch product's locations by SKU
   async getLocationsBySku(): Promise<void> {
+    console.log(this.inputLocation)
     try {
-   //   const res: ProductData | null = await this.dataService.getProductBySku(this.inputSku);
+      const res = await this.http.get<ProductData>(`${environment.apiUrl}/locate/bunk/${this.inputLocation}`).toPromise();
       
-      // if (!res) {
-      //   // Show a warning toast if the SKU is invalid
-      //   this.toastUtility.showToast('Invalid Product SKU', 'warning');
-      // } else {
-      //   // Fetch locations associated with the product SKU
-      //   const data = await this.dataService.getProductLocations(res.sku);
-      //   const locations = data?.map((item: { location_id: string }) => item.location_id);
+      if (!res) {
+        this.toastUtility.showToast('Invalid Location Code', 'warning');
+      } else {
+      const data = await this.http.get<any>(`${environment.apiUrl}/locate/bunk/${this.inputLocation}`).toPromise();
 
-      //   // Navigate to the view-all page with the product SKU and locations
-      //   this.router.navigate(['/view-all'], {
-      //     state: { 'product-sku': res.sku, locations: locations },
-      //   });
-      // }
+        this.router.navigate(['/maintain-location'], {
+                  state: { code: this.inputLocation, data },
+                });
+      }
     } catch (error) {
       console.error('Error fetching product by SKU:', error);
       this.toastUtility.showToast('Error fetching product by SKU', 'warning');

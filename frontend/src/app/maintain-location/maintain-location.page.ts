@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 interface Option {
   url: string;
   title: string;
+  products: any | null;
 }
 
 interface Product {
@@ -35,15 +36,15 @@ export class MaintainLocationPage implements OnInit {
 
   ngOnInit() {
     this.data = history.state as { code: string; 'product-sku': string };
-
+    console.log(this.data)
     this.locationId = this.data.code;
 
     this.options = [
-      { title: 'Add to', url: '/fast-find' },
-      { title: 'Bin cap', url: '/folder/outbox' },
-      { title: 'Remove From', url: '/remove-product' },
-      { title: 'View All', url: '/view-all' },
-      { title: 'Remove All', url: '/folder/archived' },
+      { title: 'Add to', url: '/fast-find', products: this.data },
+      { title: 'Bin cap', url: '/folder/outbox', products: this.data },
+      { title: 'Remove From', url: '/remove-product', products: this.data },
+      { title: 'View All', url: '/view-all', products: this.data },
+      { title: 'Remove All', url: '/folder/archived', products: this.data },
     ];
   }
 }

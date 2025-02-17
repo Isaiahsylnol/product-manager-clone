@@ -13,9 +13,10 @@
     <ion-row class="w-full flex items-center bg-white">
       <div class="border-2 border-[#6d6d6d] w-full inline-flex items-center">
         <ion-input [(ngModel)]="inputSku" (keyup.enter)="getLocationsBySku()" inputmode="text"
-        pattern="[0-9\-]*"
-        (keypress)="validateInput($event)" 
-        [clearOnEdit]="true" placeholder="Search by product # or UPC" aria-label="Product Search"></ion-input>
+          pattern="[0-9\-]*"
+          (keypress)="validateInput($event)" 
+          [clearOnEdit]="true" placeholder="Search by product # or UPC" aria-label="Product Search">
+        </ion-input>
         <ion-icon
         (click)="getLocationsBySku()"
           class="pr-4 text-black"
@@ -31,12 +32,12 @@
           #inquiryInput 
           [(ngModel)]="inputLocation" 
           [clearOnEdit]="true"
-          (keyup.enter)="getLocationProducts()" 
+          (keyup.enter)="getLocationsBySku()" 
           placeholder="Enter a location code" 
           aria-label="Product Search">
         </ion-input>
         <ion-icon
-          (click)="getLocationProducts()"
+          (click)="getLocationsBySku()"
           class="pr-4 cursor-pointer"
           aria-hidden="true"
           ios="search"
