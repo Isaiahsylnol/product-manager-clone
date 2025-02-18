@@ -72,7 +72,33 @@ async function getLocationsProducts(req, res) {
   }
 }
 
+async function removeProduct(req, res) {
+  const { sku, location_id } = req.body;
+
+  try {
+    const result = await productLocationRepository.removeProduct(
+      sku,
+      location_id
+    );
+
+    if (!result[0] || result[0] === 0) {
+      return res.status(404).json({
+        error: `Product: ${sku} not found in location: ${location_id}.`,
+      });
+    }
+    res.status(200).json(`${sku} removed from bunk: ${location_id}.`);
+  } catch (err) {
+    console.error("Error removing product from location: ", err);
+    res
+      .status(500)
+      .json({
+        error: "An error occurred while removing the product from location.",
+      });
+  }
+}
+
 module.exports = {
+  removeProduct,
   getAllLocations,
   getLocationByBunk,
   getProductLocations,

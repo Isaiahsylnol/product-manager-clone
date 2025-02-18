@@ -69,6 +69,24 @@ class ProductLocationRepository {
       throw new Error("Failed to fetch location's product(s).");
     }
   }
+
+  async removeProduct(sku, location_id) {
+    if (!sku || !location_id) {
+      throw new Error("Both product SKU and location ID are required.");
+    }
+
+    const query = `DELETE FROM ${this.tableName} WHERE product_sku = @sku AND location_id = @location_id`;
+    const values = [sku, location_id];
+    const paramNames = ["sku", "location_id"];
+
+    try {
+      const result = await executeQuery(query, values, paramNames, false);
+      return result.rowsAffected;
+    } catch (error) {
+      console.error("Database query failed:", error);
+      throw new Error("Failed to remove product by SKU and Location ID.");
+    }
+  }
 }
 
 module.exports = ProductLocationRepository;
