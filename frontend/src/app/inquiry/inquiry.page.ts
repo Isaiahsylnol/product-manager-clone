@@ -23,7 +23,7 @@ export class InquiryPage implements OnInit {
   price: number = 0;
   locations: string[] = [];
   thumbnail: string = '';
-  inputValue: string = '';
+  inputValue: any = '';
   data: any | undefined;
   sku: string | null = null;
 

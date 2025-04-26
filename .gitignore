@@ -16,7 +16,6 @@ ios/
 .angular/
 
 # Environment files
-src/environments/*.ts
 .env
 
 # System files

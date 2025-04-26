@@ -14,7 +14,7 @@
   <ion-grid>
     <ion-row>
       <div class="border-2 border-[#6d6d6d] w-full inline-flex items-center">
-        <ion-input placeholder="Search By Product Number, UPC or Description" [(ngModel)]="inputValue" (keypress)="onKeyPress($event)" aria-label="Product Search"></ion-input>
+        <ion-input placeholder="Search By Product Number, UPC or Description" (ionInput)="inputValue = $event.target.value" (keypress)="onKeyPress($event)" aria-label="Product Search"></ion-input>
         <ion-icon
         (click)="getProductBySku()"
         class="pr-4 text-black"
