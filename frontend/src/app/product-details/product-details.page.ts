@@ -9,11 +9,13 @@ interface Product {
   price: number;
   thumbnail: string;
   description: string;
+  locations: string[];
 }
 
 interface Location {
   sku: string;
 }
+
 @Component({
   selector: 'app-product-details',
   templateUrl: './product-details.page.html',
@@ -22,14 +24,11 @@ interface Location {
   imports: [IonicModule, CommonModule, FormsModule],
 })
 export class ProductDetailsPage implements OnInit {
-  locations: Array<Location> = [];
+
   thumbnail: string = '../../assets/no-image-2.jpg';
   product!: Product;
 
-  constructor() {}
-
   ngOnInit() {
-    this.product = history.state.product;
-    this.locations = history.state.location;
+    this.product = history.state;
   }
 }

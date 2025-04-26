@@ -46,6 +46,7 @@ export class InquiryPage implements OnInit {
   viewProductDetails(): void {
     const { name, price, sku, locations, thumbnail } = this;
     const data = { name, price, sku, thumbnail, location: locations };
+    console.log(data)
     this.router.navigate(['/product-details'], { state: data });
   }
 
